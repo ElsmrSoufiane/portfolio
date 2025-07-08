@@ -33,14 +33,14 @@
   @endif
 
   <!-- Header -->
-  <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+  <header style='text-align: left;' class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <nav class="main-nav">
+          <nav class="main-nav" >
             <!-- Logo -->
-            <a href="index.html" class="logo">
-              <h4>Soufiane Lasmar</h4>
+            <a href="" class="logo" style='text-align: left;padding-left: 0;margin-left: 0;left: 0;'>
+              <h4 style='margin: 0;' >Soufiane Lasmar</h4>
             </a>
             <!-- Menu -->
             <ul class="nav">
