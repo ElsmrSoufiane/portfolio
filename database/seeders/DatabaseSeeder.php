@@ -12,9 +12,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         \App\Models\User::factory(10)->create();
+         
 
-         \App\Models\User::factory()->create([
+         DB::table('users')->insert([
              'name' => 'soufiane lasmae',
              'email' => 'soufianeasmar0@example.com',
              'password'=>'07@12@2004@'
