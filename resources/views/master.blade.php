@@ -56,6 +56,7 @@
               @auth()
               <li><a href="/projets">Projets</a></li>
               <li><a href="/tutos">Tutoriels</a></li>
+              <li><a href="/messages">messages</a></li>
               <li><a href="/logout">Déconnexion</a></li>
               @endauth
             </ul>
@@ -68,12 +69,10 @@
     </div>
   </header>
 
-  @auth()
-  <div style='margin-top:100px'>
-    @include("alert")
-  </div>
-  @endauth
+  
  
+    @include("alert")
+  
   @yield('content')
  
   <!-- Footer -->

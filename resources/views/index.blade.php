@@ -245,7 +245,8 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.25s">
-          <form id="contact" action="" method="post">
+          <form id="contact" action="{{ route('contact.store') }}" method="post">
+            @csrf
             <div class="row">
               <div class="col-lg-6 offset-lg-3">
                 <div class="section-heading">
@@ -257,7 +258,7 @@
                 <div class="row">
                   <div class="col-lg-6">
                     <fieldset>
-                      <input type="name" name="name" id="name" placeholder="Nom" autocomplete="on" required>
+                      <input type="name" name="nom" id="name" placeholder="Nom" autocomplete="on" required>
                     </fieldset>
                   </div>
                   <div class="col-lg-6">

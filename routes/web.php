@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Project;
 use App\Models\Tutorial;
 use App\Models\User;
+use App\Models\Contact;
 use App\Models\Image_projet;
 use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,11 +18,30 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::post('/contact', function (Request $request) {
+    $request->validate([
+        'nom' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'message' => 'required|string',
+    ]);
+
+    Contact::create([
+        'nom' => $request->nom,
+        'email' => $request->email,
+        'message' => $request->message,
+    ]);
+
+   return redirect('/')->with('success', 'Votre message a bien été reçu. Je vous contacterai par e-mail dès que possible.');
+})->name('contact.store');
 Route::get('/projet/{id}', function ($id) {
     $projet = Project::find($id); // Get the project with the specified ID
    $images = $projet->images; 
    return view('projet', compact('projet', 'images')); 
 });
+Route::get('/messages', function () {
+    $contacts = Contact::all(); // Get all contacts
+    return view('messages', compact('contacts'));
+})->middleware('auth')->name('messages');
 Route::get("/logout", function () {
     auth()->logout();
     return redirect('/')->with('success', 'Vous êtes déconnecté avec succès.');
@@ -132,6 +153,12 @@ Route::middleware("auth")->group(function() {
     Route::get('editprojet/{id}', function ($id) {
         $projet = Project::findOrFail($id);
         return view('editprojet', compact('projet'));
+    });
+
+    Route::get('/delete/contact/{id}', function ($id) {
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
+        return redirect('/messages')->with('success', 'Message supprimé avec succès');
     });
 
     // Supprimer un tutoriel (avec son icône)
