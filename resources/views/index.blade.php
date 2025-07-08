@@ -13,7 +13,7 @@
                 <h2>Bonjour, je suis <em>Soufiane Lasmar</em></h2>
                 <p>Technicien spécialisé en développement digital avec 2 ans d'expérience.</p>
                 <div class="main-green-button scroll-to-section">
-                  <a href="#projects">Télécharger CV</a>
+                  <a href="{{ route('download.cv') }}">Télécharger CV</a>
                 </div>
               </div>
             </div>

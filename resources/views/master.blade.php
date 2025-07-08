@@ -51,7 +51,7 @@
               <li class="scroll-to-section"><a href="/#tutorials">Tutoriels</a></li>
               <li class="scroll-to-section"><a href="/#skills">Compétences</a></li>
               <li class="scroll-to-section"><a href="/#contact">Contact</a></li>
-              <li class="scroll-to-section"><div class="main-blue-button"><a href="/#contact">Télécharger CV</a></div></li>
+              <li class="scroll-to-section"><div class="main-blue-button"><a href="{{ route('download.cv') }}">Télécharger CV</a></div></li>
               @endguest
               @auth()
               <li><a href="/projets">Projets</a></li>

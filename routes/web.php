@@ -18,6 +18,9 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/downoald/',function () {
+    return response()->download(public_path('cv.pdf'));
+})->name('download.cv');
 Route::post('/contact', function (Request $request) {
     $request->validate([
         'nom' => 'required|string|max:255',
