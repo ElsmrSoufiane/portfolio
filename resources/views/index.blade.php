@@ -62,7 +62,7 @@
           </div>
           <p>Je suis un technicien spécialisé en développement digital passionné par la création de solutions web modernes. Mon expertise couvre le développement frontend et backend avec Laravel et React, ainsi que la gestion de bases de données SQL et NoSQL.</p>
           <div class="main-blue-button">
-            <a href="#">Télécharger CV</a>
+            <a href="{{ route('download.cv') }}">Télécharger CV</a>
           </div>
         </div>
       </div>
