@@ -66,18 +66,16 @@ Route::middleware("auth")->group(function() {
     // Enregistrer une nouvelle image pour un projet
     Route::post("/storeimage/{id}", function (Request $request, $id) {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|max:2048',
             'titre' => 'required',
             'description' => 'required',
         ]);
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-        }
+      
 
         Image_projet::create([
             'titre' => $request->titre,
-            'image' => $imagePath,
+            'image' => $request->image,
             'description' => $request->description,
             'project_id' => $id,
         ]);
@@ -91,9 +89,7 @@ Route::middleware("auth")->group(function() {
         $projet = $image->project;
 
         // Supprimer le fichier image du stockage
-        if (Storage::disk('public')->exists($image->image)) {
-            Storage::disk('public')->delete($image->image);
-        }
+       
 
         $image->delete();
 
@@ -128,17 +124,8 @@ Route::middleware("auth")->group(function() {
         $projet = Project::findOrFail($id);
 
         // Supprimer l'image principale du projet
-        if (Storage::disk('public')->exists($projet->image)) {
-            Storage::disk('public')->delete($projet->image);
-        }
+     
 
-        // Supprimer toutes les images associées au projet
-        foreach ($projet->images as $image) {
-            if (Storage::disk('public')->exists($image->image)) {
-                Storage::disk('public')->delete($image->image);
-            }
-            $image->delete();
-        }
 
         $projet->delete();
 
@@ -169,9 +156,7 @@ Route::middleware("auth")->group(function() {
         $tutorial = Tutorial::findOrFail($id);
 
         // Supprimer l'icône du tutoriel
-        if (Storage::disk('public')->exists($tutorial->icon)) {
-            Storage::disk('public')->delete($tutorial->icon);
-        }
+       
 
         $tutorial->delete();
 
@@ -188,15 +173,7 @@ Route::middleware("auth")->group(function() {
         $tutorial = Tutorial::findOrFail($id);
         $data = $request->all();
 
-        if ($request->hasFile('icon')) {
-            // Supprimer l'ancienne icône
-            if (Storage::disk('public')->exists($tutorial->icon)) {
-                Storage::disk('public')->delete($tutorial->icon);
-            }
-
-            // Enregistrer la nouvelle icône
-            $data['icon'] = $request->file('icon')->store('icons', 'public');
-        }
+       
 
         $tutorial->update($data);
 
@@ -215,15 +192,7 @@ Route::middleware("auth")->group(function() {
         $projet = Project::findOrFail($id);
         $data = $request->all();
 
-        if ($request->hasFile('image')) {
-            // Supprimer l'ancienne image
-            if (Storage::disk('public')->exists($projet->image)) {
-                Storage::disk('public')->delete($projet->image);
-            }
-
-            // Enregistrer la nouvelle image
-            $data['image'] = $request->file('image')->store('images', 'public');
-        }
+       
 
         $projet->update($data);
 
@@ -235,17 +204,17 @@ Route::middleware("auth")->group(function() {
         $request->validate([
             'titre' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|string|max:255',
             'code_source' => 'required|url',
             'deploiement' => 'nullable|url',
         ]);
 
-        $imagePath = $request->file('image')->store('images', 'public');
+
 
         Project::create([
             'titre' => $request->titre,
             'description' => $request->description,
-            'image' => $imagePath,
+            'image' => $request->image,
             'code_source' => $request->code_source,
             'deploiement' => $request->deploiement,
         ]);
@@ -263,15 +232,15 @@ Route::middleware("auth")->group(function() {
         $request->validate([
             'titre' => 'required|string|max:255',
             'url' => 'required|url',
-            'icon' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'icon' => 'required|string|max:255',
         ]);
 
-        $iconPath = $request->file('icon')->store('icons', 'public');
+     
 
         Tutorial::create([
             'titre' => $request->titre,
             'url' => $request->url,
-            'icon' => $iconPath,
+            'icon' => $request->icon,
         ]);
 
         return redirect('/')->with('success', 'Tutoriel créé avec succès!');

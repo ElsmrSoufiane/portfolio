@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <fieldset>
-                                        <input type="file" name="icon" id="icon" placeholder="icon du tutoriel" required>
+                                        <input type="text" name="icon" id="icon" placeholder="icon du tutoriel" required>
                                         
                                     </fieldset>
                                 </div>

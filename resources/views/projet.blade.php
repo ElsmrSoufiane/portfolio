@@ -24,7 +24,7 @@
 
         <!-- Main Project Image -->
         <div class="main-project-image mb-5">
-            <img src="{{ asset('storage/' . $projet->image) }}" alt="{{ $projet->titre }}" class="img-fluid rounded shadow">
+            <img src="{{ asset( $projet->image) }}" alt="{{ $projet->titre }}" class="img-fluid rounded shadow">
         </div>
 
         <!-- Project Description -->
@@ -47,7 +47,7 @@
                 @foreach($images as $image)
                 <div class="col-md-6 mb-4">
                     <div class="gallery-item">
-                        <img src="{{ asset('storage/' . $image->image) }}" alt="{{ $image->titre }}" class="img-fluid rounded shadow-sm">
+                        <img src="{{ asset($image->image) }}" alt="{{ $image->titre }}" class="img-fluid rounded shadow-sm">
                         @if($image->description)
                         <div class="image-caption mt-2" >
                             <p style="font-size: 25px;">{{ $image->description }}</p>

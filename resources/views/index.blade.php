@@ -89,7 +89,7 @@
             <div class="item">
               <div class="portfolio-item">
                 <div class="thumb">
-                  <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->titre }}">
+                  <img src="{{ asset( $project->image) }}" alt="{{ $project->titre }}">
                   <div class="hover-content">
                     <div class="inner-content">
                       @if($project->deploiement)
@@ -135,7 +135,7 @@
             <div class="row">
               <div class="col-lg-4">
                 <div class="icon">
-                  <img src="{{ asset('storage/' . $tutorial->icon) }}" alt="">
+                  <img src="{{ asset( $tutorial->icon) }}" alt="">
                 </div>
               </div>
               <div class="col-lg-8">

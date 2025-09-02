@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <fieldset>
-                                        <input type="file" name="image" id="image" placeholder="Image" required>
+                                        <input type="text" name="image" id="image" placeholder="Image" required>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-12">
