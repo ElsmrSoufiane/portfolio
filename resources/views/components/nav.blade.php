@@ -22,10 +22,10 @@ new class extends Component
     NovaPay
   </a>
   <div class="nav-links">
-    <a href="#features">home</a>
-    <a href="#dashboard">about</a>
-    <a href="#pricing">projects</a>
-    <a href="#security">blog/tutorials</a>
+    <a href="/" wire:navigate >home</a>
+    <a href="/about" wire:navigate >about</a>
+    <a href="/projects" wire:navigate ></a>
+    <a href="/blog"   wire:navigate >blog/tutorials</a>
   </div>
   <div class="nav-cta">
     <a href="#" class="btn-ghost">Sign in</a>
@@ -37,11 +37,12 @@ new class extends Component
 </nav>
 
 <!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu"><a href="#features">home</a>
-    <a href="#dashboard">about</a>
-    <a href="#pricing">projects</a>
-    <a href="#security">blog/tutorials</a>
- <div class="m-btns">
+<div class="mobile-menu" id="mobileMenu">
+    <a href="/" wire:navigate >home</a>
+    <a href="/about" wire:navigate          ></a>
+    <a href="/projects" wire:navigate        ></a>
+    <a href="/blog" wire:navigate      >blog/tutorials</a>
+    <div class="m-btns">
     <a href="#" class="btn-ghost">Sign in</a>
     <a href="#" class="btn-primary">Get started free</a>
   </div>
