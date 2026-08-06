@@ -1,5 +1,20 @@
+<?php
+
+use Livewire\Component;
+
+new class extends Component
+{
+    //
+};
+?>
+
 <div>
-    <nav id="mainNav">
+    <!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+<!-- NAV -->
+<nav id="mainNav">
   <a href="#" class="nav-logo">
     <div class="nav-logo-mark">
       <svg viewBox="0 0 16 16"><polyline points="2,12 6,7 10,9 14,4"/><circle cx="14" cy="4" r="1.5" fill="white" stroke="none"/></svg>
@@ -7,11 +22,10 @@
     NovaPay
   </a>
   <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#dashboard">Platform</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#security">Security</a>
-    <a href="#faq">FAQ</a>
+    <a href="#features">home</a>
+    <a href="#dashboard">about</a>
+    <a href="#pricing">projects</a>
+    <a href="#security">blog/tutorials</a>
   </div>
   <div class="nav-cta">
     <a href="#" class="btn-ghost">Sign in</a>
@@ -23,13 +37,11 @@
 </nav>
 
 <!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#features">Features</a>
-  <a href="#dashboard">Platform</a>
-  <a href="#pricing">Pricing</a>
-  <a href="#security">Security</a>
-  <a href="#faq">FAQ</a>
-  <div class="m-btns">
+<div class="mobile-menu" id="mobileMenu"><a href="#features">home</a>
+    <a href="#dashboard">about</a>
+    <a href="#pricing">projects</a>
+    <a href="#security">blog/tutorials</a>
+ <div class="m-btns">
     <a href="#" class="btn-ghost">Sign in</a>
     <a href="#" class="btn-primary">Get started free</a>
   </div>

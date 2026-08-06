@@ -15,9 +15,11 @@
         @livewireStyles
     </head>
     <body>
+        <livewire:nav />
         {{ $slot }}
 
         @livewireScripts
+       
     <script src="templatemo-623-novapay-script.js"></script>
     </body>
 </html>
