@@ -29,30 +29,21 @@ new class extends Component
           I design and build focused digital products with Laravel, TallStack, Filament, and modern DevOps workflows. Explore my work, learn with me, or bring an idea to life.
         </p>
         <div id="hero_actions_936172" class="mt-10 flex flex-wrap gap-4">
-          <a id="hero_work_link_514829" href="#projects" class="rounded-lg bg-[#E4EEF8] px-5 py-3 font-semibold text-[#0F1319] transition duration-500 hover:-translate-y-1 hover:bg-white">
-            Explore my work
-            <i data-lucide="arrow-down" class="ml-2 inline h-4 w-4"></i>
-          </a>
+          <div class="flex  w-full font-bold">
+            <div class="h-full  flex items-center">
           <a id="hero_video_link_782451" href="#videos" class="rounded-lg border border-[#2A4060] px-5 py-3 text-[#E4EEF8] transition duration-500 hover:-translate-y-1 hover:border-[#4A9EE8]">
             Watch tutorials
             <i data-lucide="circle-play" class="ml-2 inline h-4 w-4"></i>
           </a>
         </div>
-        <div id="hero_stats_921564" class="mt-16 grid max-w-lg grid-cols-3 gap-5 border-t border-[#1E3050] pt-6">
-          <div id="stat_projects_384915">
-            <strong class="display block text-3xl text-[#E4EEF8]">12+</strong>
-            <span class="text-xs text-[#506070]">projects</span>
-          </div>
-          <div id="stat_posts_619284">
-            <strong class="display block text-3xl text-[#E4EEF8]">8</strong>
-            <span class="text-xs text-[#506070]">posts</span>
-          </div>
-          <div id="stat_videos_752416">
-            <strong class="display block text-3xl text-[#E4EEF8]">6</strong>
-            <span class="text-xs text-[#506070]">videos</span>
-          </div>
+          <div 
+  class="nex-video-player"
+  data-src="367684_medium.mp4"
+  data-title="Video Title"
+></div>
         </div>
-      </div>
+        </div>
+           </div>
       <div id="hero_visual_483029" class="relative z-10 flex items-center justify-center rise" style="animation-delay:.15s">
         <div id="workspace_card_816394" class="relative w-full max-w-md rotate-2 rounded-2xl border border-[#2A4060] bg-[#141920] p-3 soft transition duration-700 hover:rotate-0 hover:scale-[1.02]">
           <div id="workspace_inner_527681" class="rounded-xl border border-[#1E3050] bg-[#1A2130] p-5">
@@ -85,6 +76,20 @@ new class extends Component
         </div>
       </div>
     </section>
+   <div id="hero_stats_921564" class="mt-5 grid   grid-cols-3 gap-5 border-t border-[#1E3050] pt-2 place-items-center  w-full">
+          <div id="stat_projects_384915">
+            <strong class="display block text-3xl text-[#E4EEF8]">12+</strong>
+            <span class="text-xs text-[#506070]">projects</span>
+          </div>
+          <div id="stat_posts_619284">
+            <strong class="display block text-3xl text-[#E4EEF8]">8</strong>
+            <span class="text-xs text-[#506070]">posts</span>
+          </div>
+          <div id="stat_videos_752416">
+            <strong class="display block text-3xl text-[#E4EEF8]">6</strong>
+            <span class="text-xs text-[#506070]">videos</span>
+          </div>
+        </div>
 
     <!-- Projects Section -->
     <section id="projects" class="mx-auto max-w-[1280px] px-6 py-20 lg:px-12">
@@ -218,22 +223,7 @@ new class extends Component
       </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="relative overflow-hidden bg-[#1A2130]">
-      <div id="contact_grid_618527" class="grid-bg absolute inset-0"></div>
-      <div id="contact_inner_739416" class="relative mx-auto max-w-[1280px] px-6 py-24 text-center lg:px-12">
-        <span id="contact_eyebrow_825174" class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">Let's make it real</span>
-        <h2 id="contact_heading_681429" class="display mx-auto mt-4 max-w-3xl text-5xl font-bold leading-tight">
-          Have a useful idea?
-          <br>
-          <span class="text-[#4A9EE8]">I'd love to hear it.</span>
-        </h2>
-        <p id="contact_description_517638" class="mx-auto mt-5 max-w-xl text-[#8AAEC8]">Tell me what you're building, where you're stuck, or which product you want to buy.</p>
-        <a id="contact_email_294816" href="mailto:hello@lasmarsoufiane.dev" class="mt-8 inline-flex items-center rounded-lg bg-[#4A9EE8] px-6 py-3 font-semibold text-[#0F1319] transition duration-500 hover:scale-105 hover:bg-[#7EC8F0]">
-          hello@lasmarsoufiane.dev
-          <i data-lucide="mail" class="ml-2 h-4 w-4"></i>
-        </a>
-      </div>
-    </section>
-  </div>
+
+
+</div>
 </div>
