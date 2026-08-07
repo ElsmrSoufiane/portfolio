@@ -11,13 +11,12 @@ new class extends Component
 <div>
    <!-- Videos Section -->
     <section id="videos" class="mx-auto max-w-[1280px] px-6 py-20 lg:px-12">
-      <div id="videos_header_618294" class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
-        <div id="videos_title_group_752681">
-          <span class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">03 / Tutorials</span>
-          <h2 class="display mt-3 text-4xl font-bold">Learn by shipping.</h2>
-        </div>
-        <a id="videos_all_link_481625" href="#" class="text-sm text-[#4A9EE8]">View all videos →</a>
-      </div>
+    <div id="videos_header_618294" class="h-full flex flex-col justify-center items-center gap-8 text-lg font-bold text-center">
+  <div id="videos_title_group_752681" class="text-center">
+    <span class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">03 / Tutorials</span>
+    <h2 class="display mt-3 text-4xl font-bold">Learn by shipping.</h2>
+  </div>
+</div>
       <div id="videos_grid_739214" class="mt-10 grid gap-5 md:grid-cols-2">
         <article id="video_laravel_618472" class="group flex gap-5 rounded-xl border border-[#1E3050] bg-[#141920] p-4 transition duration-700 hover:border-[#4A9EE8]">
           <div id="video_laravel_visual_825149" class="flex h-28 w-40 shrink-0 items-center justify-center rounded-lg bg-[#1A2130]">
