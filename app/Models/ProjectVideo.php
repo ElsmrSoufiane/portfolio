@@ -4,22 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Theme extends Model
+class ProjectVideo extends Model
 {
     protected $fillable = [
-        'title',
         'project_id',
-        'code',
-        'description',
+        'video',
+        'title',
     ];
 
     public function project()
     {
         return $this->belongsTo(Project::class);
-    }
-
-    public function themeimages()
-    {
-        return $this->belongsTo(Themeimage::class);
     }
 }
