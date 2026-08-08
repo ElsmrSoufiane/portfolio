@@ -42,6 +42,7 @@ class AdminPanelProvider extends PanelProvider
              ->widgets([
                    StatsOverview::class           
             ])
+             ->readOnlyRelationManagersOnResourceViewPagesByDefault(false)
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

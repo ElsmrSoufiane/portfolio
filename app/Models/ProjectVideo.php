@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectVideo extends Model
 {
+    protected $table="projectvideos";
+
     protected $fillable = [
         'project_id',
         'video',

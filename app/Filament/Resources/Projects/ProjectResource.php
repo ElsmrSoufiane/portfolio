@@ -15,6 +15,10 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use App\Filament\Resources\Projects\RelationManagers\ImagesRelationManager;
+use App\Filament\Resources\Projects\RelationManagers\SectionsRelationManager;
+use App\Filament\Resources\Projects\RelationManagers\VideosRelationManager;
+use App\Filament\Resources\Projects\RelationManagers\ThemesRelationManager;
 
 class ProjectResource extends Resource
 {
@@ -42,7 +46,10 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ImagesRelationManager::class,
+            SectionsRelationManager::class,
+            VideosRelationManager::class,
+            ThemesRelationManager::class,
         ];
     }
 
