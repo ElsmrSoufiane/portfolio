@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\Blogs\Schemas;
 
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\FileUpload;
 
 class BlogForm
 {
@@ -15,9 +15,11 @@ class BlogForm
                 TextInput::make('title')
                     ->required(),
                 FileUpload::make('video')
-                  ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/quicktime'])
-                   ->maxSize(100000)
+                    ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/quicktime'])
+                    ->maxSize(100000)
                     ->required(),
+                FileUpload::make('image')
+                    ->image(),
             ]);
     }
 }

@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
 {
-protected $fillable=[
-    "title",
-    "video",
-];
+    protected $fillable = [
+        'title',
+        'video',
+        'image',
+    ];
 
-public function sections(){
-    return $this->hasMany(Section::class);
-}
+    public function sections()
+    {
+        return $this->hasMany(Section::class);
+    }
 }
