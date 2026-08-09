@@ -2,15 +2,13 @@
 
 namespace App\Filament\Resources\Projects\RelationManagers;
 
-use Filament\Actions\AssociateAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\DissociateAction;
-use Filament\Actions\DissociateBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -29,6 +27,10 @@ class VideosRelationManager extends RelationManager
                 TextInput::make('title')
                     ->required()
                     ->maxLength(255),
+                FileUpload::make('video')
+                    ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/quicktime'])
+                    ->maxSize(100000)
+                    ->required(),
             ]);
     }
 
@@ -37,6 +39,7 @@ class VideosRelationManager extends RelationManager
         return $schema
             ->components([
                 TextEntry::make('title'),
+                TextEntry::make('video'),
             ]);
     }
 
@@ -47,23 +50,22 @@ class VideosRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('title')
                     ->searchable(),
+                TextColumn::make('video')
+                    ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
                 CreateAction::make(),
-                AssociateAction::make(),
             ])
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
-                DissociateAction::make(),
                 DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DissociateBulkAction::make(),
                     DeleteBulkAction::make(),
                 ]),
             ]);
