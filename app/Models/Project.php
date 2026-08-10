@@ -8,7 +8,14 @@ class Project extends Model
 {
     protected $fillable = [
         'title',
+        'description',
+        'image',
     ];
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 
     public function themes()
     {

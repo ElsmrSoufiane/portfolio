@@ -1,10 +1,26 @@
 <?php
 
 use Livewire\Component;
+use App\Models\Project;
+use App\Models\Blog;
 
 new class extends Component
 {
-    //
+  public ?int $postscount;
+
+  public ?int $videoscount;
+
+  public ?int $projectscount;
+  
+  public \Illuminate\Database\Eloquent\Collection $projects;
+
+  public function mount(){
+           $this->projects=Project::with("tags")->get();
+           $this->postscount=Blog::all()->count();
+           $this->projectscount=Project::all()->count();
+           $this->videoscount=Blog::all()->count() + Project::whereHas("videos")->count();
+  }
+
 };
 ?>
 
@@ -78,15 +94,15 @@ new class extends Component
     </section>
    <div id="hero_stats_921564" class="mt-5 grid   grid-cols-3 gap-5 border-t border-[#1E3050] pt-2 place-items-center  w-full">
           <div id="stat_projects_384915">
-            <strong class="display block text-3xl text-[#E4EEF8]">12+</strong>
+            <strong class="display block text-3xl text-[#E4EEF8]"> {{$this->projectscount  }} </strong>
             <span class="text-xs text-[#506070]">projects</span>
           </div>
           <div id="stat_posts_619284">
-            <strong class="display block text-3xl text-[#E4EEF8]">8</strong>
+            <strong class="display block text-3xl text-[#E4EEF8]"> {{$this->postscount  }} </strong>
             <span class="text-xs text-[#506070]">posts</span>
           </div>
           <div id="stat_videos_752416">
-            <strong class="display block text-3xl text-[#E4EEF8]">6</strong>
+            <strong class="display block text-3xl text-[#E4EEF8]"> {{$this->videoscount  }} </strong>
             <span class="text-xs text-[#506070]">videos</span>
           </div>
         </div>
@@ -104,18 +120,35 @@ new class extends Component
         </a>
       </div>
       <div id="projects_grid_704182" class="grid gap-5 md:grid-cols-3">
-        <article id="project_novapay_591824" class="group rounded-xl border border-[#1E3050] bg-[#141920] p-5 transition duration-700 hover:-translate-y-1 hover:border-[#4A9EE8]">
-          <div id="novapay_visual_618275" class="mb-6 flex h-40 items-end rounded-lg bg-[#1A2130] p-4">
-            <i data-lucide="layout-dashboard" class="h-12 w-12 text-[#4A9EE8]"></i>
+        
+       @forelse ($projects as  $project)
+         <a href="/project/{{ $project->id }}" wire:navigate wire:key="project-{{ $project->id }}"> 
+               <article id="project_{{$project->id}}" class="group rounded-xl border border-[#1E3050] bg-[#141920] p-5 transition duration-700 hover:-translate-y-1 hover:border-[#4A9EE8]">
+          <div id="project_visual_{{$project->id}}" class="mb-6 flex h-40 items-center justify-center overflow-hidden rounded-lg bg-[#1A2130]">
+            @if ($project->image)
+              <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}" class="h-full w-full object-cover">
+            @else
+              <i data-lucide="layout-dashboard" class="h-12 w-12 text-[#4A9EE8]"></i>
+            @endif
           </div>
-          <span class="text-xs text-[#4A9EE8]">SaaS starter · Laravel</span>
-          <h3 class="display mt-2 text-2xl font-bold">NovaPay Dashboard</h3>
-          <p class="mt-2 text-sm leading-6 text-[#8AAEC8]">A polished analytics dashboard starter for modern payment products.</p>
-          <div class="mt-6 flex items-center justify-between text-sm">
-            <span class="text-[#E4EEF8]">Instant access</span>
+          <span class="text-xs text-[#4A9EE8]">
+            @foreach ($project->tags as $tag)
+              {{$tag->name  }}.
+            @endforeach
+          </span>
+
+          <h3 class="display mt-2 text-2xl font-bold"> {{$project->title}} </h3>
+          <p class="mt-2 text-sm leading-6 text-[#8AAEC8]"> {{$project->description}} </p>
+         <div class="mt-6 flex items-center justify-between text-sm"> 
+             <span class="text-[#E4EEF8]">Instant access</span>
             <i data-lucide="arrow-up-right" class="h-4 w-4 text-[#4A9EE8]"></i>
-          </div>
+          </div> 
         </article>
+      </a>   
+       @empty
+        <p class="col-span-full rounded-xl border border-dashed border-[#1E3050] py-16 text-center text-sm text-[#506070]">No projects published yet — check back soon.</p> 
+       @endforelse 
+ 
         <article id="project_crm_746192" class="group rounded-xl border border-[#1E3050] bg-[#141920] p-5 transition duration-700 hover:-translate-y-1 hover:border-[#4A9EE8]">
           <div id="crm_visual_925718" class="mb-6 flex h-40 items-end rounded-lg bg-[#1A2130] p-4">
             <i data-lucide="users-round" class="h-12 w-12 text-[#7EC8F0]"></i>
