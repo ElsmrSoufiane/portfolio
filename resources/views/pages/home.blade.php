@@ -154,47 +154,11 @@ new class extends Component
       </div>
     </section>
 
-    <!-- Blog Section -->
-    <section id="blog" class="border-y border-[#1E3050] bg-[#141920]">
-      <div id="blog_inner_682514" class="mx-auto max-w-[1280px] px-6 py-20 lg:px-12">
-        <div id="blog_layout_914627" class="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
-          <div id="blog_intro_528193">
-            <span class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">02 / Blog</span>
-            <h2 class="display mt-3 text-4xl font-bold">Notes from the build.</h2>
-            <p class="mt-5 max-w-sm leading-7 text-[#8AAEC8]">Practical lessons on shipping products, marketing them, and keeping production systems boring.</p>
-          </div>
-          <div id="blog_posts_371649" class="divide-y divide-[#1E3050]">
-            <a id="blog_post_one_618527" class="group flex items-center justify-between py-5" href="#">
-              <div id="blog_post_one_copy_739416">
-                <span class="text-xs text-[#506070]">DEVOPS · 6 MIN READ</span>
-                <h3 class="mt-1 text-lg text-[#E4EEF8] transition group-hover:text-[#4A9EE8]">Deploying Laravel apps with Docker without the drama</h3>
-              </div>
-              <i data-lucide="arrow-up-right" class="h-5 w-5 text-[#506070] transition group-hover:-translate-y-1 group-hover:text-[#4A9EE8]"></i>
-            </a>
-            <a id="blog_post_two_925174" class="group flex items-center justify-between py-5" href="#">
-              <div id="blog_post_two_copy_681429">
-                <span class="text-xs text-[#506070]">MARKETING · 4 MIN READ</span>
-                <h3 class="mt-1 text-lg text-[#E4EEF8] transition group-hover:text-[#4A9EE8]">The first 100 users: a developer's practical launch plan</h3>
-              </div>
-              <i data-lucide="arrow-up-right" class="h-5 w-5 text-[#506070] transition group-hover:-translate-y-1 group-hover:text-[#4A9EE8]"></i>
-            </a>
-            <a id="blog_post_three_517638" class="group flex items-center justify-between py-5" href="#">
-              <div id="blog_post_three_copy_294816">
-                <span class="text-xs text-[#506070]">LARAVEL · 8 MIN READ</span>
-                <h3 class="mt-1 text-lg text-[#E4EEF8] transition group-hover:text-[#4A9EE8]">Queues, jobs, and the small architecture that scales</h3>
-              </div>
-              <i data-lucide="arrow-up-right" class="h-5 w-5 text-[#506070] transition group-hover:-translate-y-1 group-hover:text-[#4A9EE8]"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Videos Section -->
     <section id="videos" class="mx-auto max-w-[1280px] px-6 py-20 lg:px-12">
       <div id="videos_header_618294" class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
         <div id="videos_title_group_752681">
-          <span class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">03 / Tutorials</span>
+          <span class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">02 / Tutorials</span>
           <h2 class="display mt-3 text-4xl font-bold">Learn by shipping.</h2>
         </div>
         <a id="videos_all_link_481625" href="#" class="text-sm text-[#4A9EE8]">View all videos →</a>
@@ -226,7 +190,7 @@ new class extends Component
     <!-- About Section -->
     <section id="about" class="border-t border-[#1E3050] bg-[#141920]">
       <div id="about_inner_752416" class="mx-auto max-w-[1280px] px-6 py-20 lg:px-12">
-        <span id="about_eyebrow_618295" class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">04 / About</span>
+        <span id="about_eyebrow_618295" class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">03 / About</span>
         <div id="about_content_491726" class="mt-5 grid gap-8 lg:grid-cols-[.8fr_1.2fr]">
           <h2 id="about_heading_826415" class="display text-4xl font-bold">Code, products, and ideas that move forward.</h2>
           <p id="about_description_739182" class="max-w-2xl text-lg leading-8 text-[#8AAEC8]">I'm a full-stack developer working with PHP, Laravel, TallStack, Filament, and DevOps tools. Alongside building reliable products, I bring nine months of digital marketing experience to help ideas reach the right audience.</p>
