@@ -12,6 +12,11 @@ class Blog extends Model
         'image',
     ];
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
     public function sections()
     {
         return $this->hasMany(Section::class);

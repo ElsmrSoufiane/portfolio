@@ -7,6 +7,7 @@ use App\Filament\Resources\Blogs\Pages\EditBlog;
 use App\Filament\Resources\Blogs\Pages\ListBlogs;
 use App\Filament\Resources\Blogs\Pages\ViewBlog;
 use App\Filament\Resources\Blogs\RelationManagers\SectionsRelationManager;
+use App\Filament\Resources\Blogs\RelationManagers\TagsRelationManager;
 use App\Filament\Resources\Blogs\Schemas\BlogForm;
 use App\Filament\Resources\Blogs\Schemas\BlogInfolist;
 use App\Filament\Resources\Blogs\Tables\BlogsTable;
@@ -44,6 +45,7 @@ class BlogResource extends Resource
     {
         return [
             SectionsRelationManager::class,
+            TagsRelationManager::class,
         ];
     }
 

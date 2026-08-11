@@ -14,8 +14,11 @@ new class extends Component
   
   public \Illuminate\Database\Eloquent\Collection $projects;
 
+  public \Illuminate\Database\Eloquent\Collection $blogs;
+
   public function mount(){
-           $this->projects=Project::with("tags")->get();
+           $this->projects=Project::with("tags")->latest()->limit(3)->get();
+           $this->blogs=Blog::with("tags")->latest()->limit(3)->get();
            $this->postscount=Blog::all()->count();
            $this->projectscount=Project::all()->count();
            $this->videoscount=Blog::all()->count() + Project::whereHas("videos")->count();
@@ -114,7 +117,7 @@ new class extends Component
           <span class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">01 / Selected work</span>
           <h2 class="display mt-3 text-4xl font-bold">Products built to be used.</h2>
         </div>
-        <a id="projects_contact_link_381926" href="#contact" class="hidden text-sm text-[#8AAEC8] md:block">
+        <a id="projects_contact_link_381926" href="https://wa.me/212612345678" target="_blank" rel="noopener" class="hidden text-sm text-[#8AAEC8] md:block">
           Need something similar?
           <span class="text-[#4A9EE8]">Let's talk →</span>
         </a>
@@ -148,31 +151,6 @@ new class extends Component
        @empty
         <p class="col-span-full rounded-xl border border-dashed border-[#1E3050] py-16 text-center text-sm text-[#506070]">No projects published yet — check back soon.</p> 
        @endforelse 
- 
-        <article id="project_crm_746192" class="group rounded-xl border border-[#1E3050] bg-[#141920] p-5 transition duration-700 hover:-translate-y-1 hover:border-[#4A9EE8]">
-          <div id="crm_visual_925718" class="mb-6 flex h-40 items-end rounded-lg bg-[#1A2130] p-4">
-            <i data-lucide="users-round" class="h-12 w-12 text-[#7EC8F0]"></i>
-          </div>
-          <span class="text-xs text-[#4A9EE8]">Admin toolkit · Filament</span>
-          <h3 class="display mt-2 text-2xl font-bold">Filament CRM Starter</h3>
-          <p class="mt-2 text-sm leading-6 text-[#8AAEC8]">A flexible customer management base for teams that need to move fast.</p>
-          <div class="mt-6 flex items-center justify-between text-sm">
-            <span class="text-[#E4EEF8]">Source included</span>
-            <i data-lucide="arrow-up-right" class="h-4 w-4 text-[#4A9EE8]"></i>
-          </div>
-        </article>
-        <article id="project_taskboard_315847" class="group rounded-xl border border-[#1E3050] bg-[#141920] p-5 transition duration-700 hover:-translate-y-1 hover:border-[#4A9EE8]">
-          <div id="taskboard_visual_681429" class="mb-6 flex h-40 items-end rounded-lg bg-[#1A2130] p-4">
-            <i data-lucide="square-kanban" class="h-12 w-12 text-[#4A9EE8]"></i>
-          </div>
-          <span class="text-xs text-[#4A9EE8]">Productivity · TallStack</span>
-          <h3 class="display mt-2 text-2xl font-bold">TallStack Taskboard</h3>
-          <p class="mt-2 text-sm leading-6 text-[#8AAEC8]">A calm, collaborative taskboard for small teams and independent makers.</p>
-          <div class="mt-6 flex items-center justify-between text-sm">
-            <span class="text-[#E4EEF8]">Launch bundle</span>
-            <i data-lucide="arrow-up-right" class="h-4 w-4 text-[#4A9EE8]"></i>
-          </div>
-        </article>
       </div>
     </section>
 
@@ -222,26 +200,26 @@ new class extends Component
         <a id="videos_all_link_481625" href="#" class="text-sm text-[#4A9EE8]">View all videos →</a>
       </div>
       <div id="videos_grid_739214" class="mt-10 grid gap-5 md:grid-cols-2">
-        <article id="video_laravel_618472" class="group flex gap-5 rounded-xl border border-[#1E3050] bg-[#141920] p-4 transition duration-700 hover:border-[#4A9EE8]">
-          <div id="video_laravel_visual_825149" class="flex h-28 w-40 shrink-0 items-center justify-center rounded-lg bg-[#1A2130]">
-            <i data-lucide="play" class="h-9 w-9 text-[#4A9EE8]"></i>
+        @forelse ($blogs as $blog)
+        <a href="/blog/{{ $blog->id }}" wire:navigate wire:key="blog-{{ $blog->id }}">
+        <article id="video_{{$blog->id}}" class="group flex gap-5 rounded-xl border border-[#1E3050] bg-[#141920] p-4 transition duration-700 hover:border-[#4A9EE8]">
+          <div id="video_{{$blog->id}}_visual" class="flex h-28 w-40 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#1A2130]">
+            @if ($blog->image)
+              <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="h-full w-full object-cover">
+            @else
+              <i data-lucide="play" class="h-9 w-9 text-[#4A9EE8]"></i>
+            @endif
           </div>
-          <div id="video_laravel_copy_379216">
-            <span class="text-xs text-[#506070]">32 MIN · BACKEND</span>
-            <h3 class="display mt-2 text-xl font-bold">Build a Laravel API from zero</h3>
-            <p class="mt-2 text-sm text-[#8AAEC8]">Auth, resources, validation, and clean deployment.</p>
-          </div>
-        </article>
-        <article id="video_docker_927416" class="group flex gap-5 rounded-xl border border-[#1E3050] bg-[#141920] p-4 transition duration-700 hover:border-[#4A9EE8]">
-          <div id="video_docker_visual_581724" class="flex h-28 w-40 shrink-0 items-center justify-center rounded-lg bg-[#1A2130]">
-            <i data-lucide="play" class="h-9 w-9 text-[#7EC8F0]"></i>
-          </div>
-          <div id="video_docker_copy_614829">
-            <span class="text-xs text-[#506070]">24 MIN · DEVOPS</span>
-            <h3 class="display mt-2 text-xl font-bold">Deploy with Docker + GitHub Actions</h3>
-            <p class="mt-2 text-sm text-[#8AAEC8]">A repeatable path from commit to production.</p>
+          <div id="video_{{$blog->id}}_copy">
+            <span class="text-xs text-[#506070]">24 MIN · {{ $blog->tags->pluck('name')->implode(' · ') }}</span>
+            <h3 class="display mt-2 text-xl font-bold">{{ $blog->title }}</h3>
+            <p class="mt-2 text-sm text-[#8AAEC8]">{{ $blog->video }}</p>
           </div>
         </article>
+        </a>
+        @empty
+        <p class="col-span-full rounded-xl border border-dashed border-[#1E3050] py-16 text-center text-sm text-[#506070]">No videos published yet — check back soon.</p>
+        @endforelse
       </div>
     </section>
 

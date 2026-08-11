@@ -25,4 +25,9 @@ class Tag extends Model
     {
         return $this->belongsToMany(Project::class);
     }
+
+    public function blogs()
+    {
+        return $this->belongsToMany(Blog::class);
+    }
 }
