@@ -24,6 +24,8 @@ class UserPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->login()
+            ->registration()
             ->id('user')
             ->path('user')
             ->colors([

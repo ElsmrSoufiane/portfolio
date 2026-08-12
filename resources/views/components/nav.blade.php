@@ -20,10 +20,15 @@ new class extends Component
     <a id="nav_blog_746291" href="/blog" wire:current.exact="!bg-sky-100 !text-black !p-2 !font-bold !rounded-sm" wire:navigate class="transition hover:-translate-y-0.5 hover:text-white">Blog</a>
   </nav>
   <div id="auth_actions_492781" class="flex items-center gap-3">
-    <a id="sign_in_link_739416" href="#sign-in" class="rounded-lg border border-[#2A4060] px-4 py-2.5 text-sm font-semibold text-[#E4EEF8] transition duration-500 hover:-translate-y-0.5 hover:border-[#4A9EE8] hover:text-white">Sign in</a>
-    <a id="log_in_link_825174" href="#log-in" class="rounded-lg bg-[#4A9EE8] px-4 py-2.5 text-sm font-semibold text-[#0F1319] transition duration-500 hover:scale-105 hover:bg-[#7EC8F0]">
+    @guest()
+    <a id="sign_in_link_739416" href="/user/register" class="rounded-lg border border-[#2A4060] px-4 py-2.5 text-sm font-semibold text-[#E4EEF8] transition duration-500 hover:-translate-y-0.5 hover:border-[#4A9EE8] hover:text-white">Sign in</a>
+    <a id="log_in_link_825174" href="/user/login" class="rounded-lg bg-[#4A9EE8] px-4 py-2.5 text-sm font-semibold text-[#0F1319] transition duration-500 hover:scale-105 hover:bg-[#7EC8F0]">
       Log in
       <i data-lucide="log-in" class="ml-1 inline h-4 w-4"></i>
     </a>
+    @endguest
+    @auth()
+    <a id="space_link_739416" href="/user"  class="rounded-lg bg-[#4A9EE8] px-4 py-2.5 text-sm font-semibold text-[#0F1319] transition duration-500 hover:scale-105 hover:bg-[#7EC8F0]">{{ strtoupper(Str::substr(auth()->user()->name, 0, 2)) }}</a>
+    @endauth
   </div>
 </header>

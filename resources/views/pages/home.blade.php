@@ -125,7 +125,7 @@ new class extends Component
       <div id="projects_grid_704182" class="grid gap-5 md:grid-cols-3">
         
        @forelse ($projects as  $project)
-         <a href="/project/{{ $project->id }}" wire:navigate wire:key="project-{{ $project->id }}"> 
+         <a class="project" href="/project/{{ $project->id }}" wire:navigate wire:key="project-{{ $project->id }}"> 
                <article id="project_{{$project->id}}" class="group rounded-xl border border-[#1E3050] bg-[#141920] p-5 transition duration-700 hover:-translate-y-1 hover:border-[#4A9EE8]">
           <div id="project_visual_{{$project->id}}" class="mb-6 flex h-40 items-center justify-center overflow-hidden rounded-lg bg-[#1A2130]">
             @if ($project->image)
@@ -165,7 +165,7 @@ new class extends Component
       </div>
       <div id="videos_grid_739214" class="mt-10 grid gap-5 md:grid-cols-2">
         @forelse ($blogs as $blog)
-        <a href="/blog/{{ $blog->id }}" wire:navigate wire:key="blog-{{ $blog->id }}">
+        <a href="/blog/{{ $blog->id }}" class="blog" wire:navigate wire:key="blog-{{ $blog->id }}">
         <article id="video_{{$blog->id}}" class="group flex gap-5 rounded-xl border border-[#1E3050] bg-[#141920] p-4 transition duration-700 hover:border-[#4A9EE8]">
           <div id="video_{{$blog->id}}_visual" class="flex h-28 w-40 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#1A2130]">
             @if ($blog->image)
@@ -190,8 +190,8 @@ new class extends Component
     <!-- About Section -->
     <section id="about" class="border-t border-[#1E3050] bg-[#141920]">
       <div id="about_inner_752416" class="mx-auto max-w-[1280px] px-6 py-20 lg:px-12">
-        <span id="about_eyebrow_618295" class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">03 / About</span>
-        <div id="about_content_491726" class="mt-5 grid gap-8 lg:grid-cols-[.8fr_1.2fr]">
+        <span id="about_eyebrow_618295" class="about-reveal text-xs uppercase tracking-[.2em] text-[#4A9EE8]">03 / About</span>
+        <div id="about_content_491726" class="about-reveal mt-5 grid gap-8 lg:grid-cols-[.8fr_1.2fr]">
           <h2 id="about_heading_826415" class="display text-4xl font-bold">Code, products, and ideas that move forward.</h2>
           <p id="about_description_739182" class="max-w-2xl text-lg leading-8 text-[#8AAEC8]">I'm a full-stack developer working with PHP, Laravel, TallStack, Filament, and DevOps tools. Alongside building reliable products, I bring nine months of digital marketing experience to help ideas reach the right audience.</p>
         </div>
@@ -201,4 +201,97 @@ new class extends Component
 
 
 </div>
+<script>
+    if (typeof gsap !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        const el = document.querySelector('#hero_description_285716');
+
+        if (el) {
+            const words = el.textContent.trim().split(/\s+/);
+            el.textContent = '';
+
+            el.innerHTML = words
+                .map((word) => `<span class="gsap-word inline-block">${word}</span>`)
+                .join(' ');
+
+            gsap.from(el.querySelectorAll('.gsap-word'), {
+                y: 100,
+                opacity: 0,
+                duration: 1.2,
+                stagger: 0.06,
+                ease: 'expo.out',
+            });
+        }
+    }
+    gsap.from("#hero_eyebrow_724691",
+      {
+        x:-300,
+        opacity:0,
+        duration:0.8,
+        ease: 'expo.out',
+      }
+    );
+    gsap.fromTo("#hero_visual_483029",
+      {
+        y: 80,
+        opacity: 0,
+        rotate: 3,
+        scale: 0.95,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        rotate: 0,
+        scale: 1,
+        duration: 1.4,
+        ease: 'expo.out',
+        clearProps: 'transform,opacity',
+        onComplete() {
+            gsap.to("#hero_visual_483029", {
+                y: -14,
+                rotation: 2,
+                scale: 1.02,
+                duration: 3.2,
+                ease: 'sine.inOut',
+                repeat: -1,
+                yoyo: true,
+            });
+        },
+      }
+    );
+    gsap.from(".project",{
+      ease:'power.out',
+      stagger:0.5,
+      duration:0.8,
+      opacity:0,
+      y:100,
+      scrollTrigger:{
+        trigger:".project",
+        toggleActions:"play none none reverse"
+      }
+    });
+    gsap.from(".blog",{
+      ease:'power.out',
+      stagger:0.5,
+      duration:0.8,
+      opacity:0,
+      y:100,
+      scrollTrigger:{
+        trigger:".blog",
+        toggleActions:"play none none reverse"
+      }
+    });
+    gsap.from(".about-reveal",{
+      ease:'power.out',
+      stagger:0.2,
+      duration:0.8,
+      opacity:0,
+      y:100,
+      scrollTrigger:{
+        trigger:"#about",
+        toggleActions:"play none none reverse"
+      }
+    });
+
+</script>
 </div>

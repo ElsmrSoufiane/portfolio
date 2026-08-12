@@ -1,15 +1,20 @@
 <?php
 
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use App\Models\Project;
+use Livewire\WithoutUrlPagination;
+use Livewire\WithPagination;
 
 new class extends Component
 {
-    public \Illuminate\Database\Eloquent\Collection $projects;
+     use WithPagination, WithoutUrlPagination; 
 
-    public function mount()
+    
+    #[Computed]
+    public function projects()
     {
-        $this->projects = Project::with("tags")->get();
+        return Project::with("tags")->paginate(10);
     }
 };
 ?>
@@ -25,8 +30,8 @@ new class extends Component
            </div>
       <div id="projects_grid_704182" class="grid gap-5 md:grid-cols-3">
 
-       @forelse ($projects as $project)
-         <a href="/project/{{ $project->id }}" wire:navigate wire:key="project-{{ $project->id }}">
+       @forelse ($this->projects as $project)
+         <a href="/project/{{ $project->id }}" wire:navigate wire:key="project-{{ $project->id }}" class="project">
                <article id="project_{{$project->id}}" class="group rounded-xl border border-[#1E3050] bg-[#141920] p-5 transition duration-700 hover:-translate-y-1 hover:border-[#4A9EE8]">
           <div id="project_visual_{{$project->id}}" class="mb-6 flex h-40 items-center justify-center overflow-hidden rounded-lg bg-[#1A2130]">
             @if ($project->image)
@@ -51,9 +56,25 @@ new class extends Component
       </a>
        @empty
         <p class="col-span-full rounded-xl border border-dashed border-[#1E3050] py-16 text-center text-sm text-[#506070]">No projects published yet — check back soon.</p>
-       @endforelse
+        @endforelse
       </div>
+
+      {{ $this->projects->links() }}
     </section>
 
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.from(".project", {
+        ease: 'power.out',
+        stagger: 0.5,
+        duration: 0.8,
+        opacity: 0,
+        y: 100,
+        scrollTrigger: {
+          trigger: ".project",
+          toggleActions: "play none none reverse"
+        }
+      });
+    </script>
 
 </div>

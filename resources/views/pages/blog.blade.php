@@ -2,14 +2,17 @@
 
 use Livewire\Component;
 use App\Models\Blog;
+use Livewire\Attributes\Computed;
+use Livewire\WithoutUrlPagination;
+use Livewire\WithPagination;
 
 new class extends Component
-{
-    public \Illuminate\Database\Eloquent\Collection $blogs;
-
-    public function mount()
+{ 
+  use WithPagination,WithPagination;
+    #[Computed]
+    public function blogs()
     {
-        $this->blogs = Blog::with("tags")->get();
+        return  Blog::with("tags")->paginate(10);
     }
 };
 ?>
@@ -24,8 +27,8 @@ new class extends Component
   </div>
 </div>
       <div id="videos_grid_739214" class="mt-10 grid gap-5 md:grid-cols-2">
-        @forelse ($blogs as $blog)
-        <a href="/blog/{{ $blog->id }}" wire:navigate wire:key="blog-{{ $blog->id }}">
+        @forelse ($this->blogs as $blog)
+        <a href="/blog/{{ $blog->id }}" wire:navigate wire:key="blog-{{ $blog->id }}" class="blog">
         <article id="video_{{$blog->id}}" class="group flex gap-5 rounded-xl border border-[#1E3050] bg-[#141920] p-4 transition duration-700 hover:border-[#4A9EE8]">
           <div id="video_{{$blog->id}}_visual" class="flex h-28 w-40 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#1A2130]">
             @if ($blog->image)
@@ -45,5 +48,21 @@ new class extends Component
         <p class="col-span-full rounded-xl border border-dashed border-[#1E3050] py-16 text-center text-sm text-[#506070]">No videos published yet — check back soon.</p>
         @endforelse
       </div>
+          {{$this->blogs->links()  }}  
     </section>
+
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.from(".blog", {
+        ease: 'power.out',
+        stagger: 0.5,
+        duration: 0.8,
+        opacity: 0,
+        y: 100,
+        scrollTrigger: {
+          trigger: ".blog",
+          toggleActions: "play none none reverse"
+        }
+      });
+    </script>
 </div>
