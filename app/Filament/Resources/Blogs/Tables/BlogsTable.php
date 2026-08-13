@@ -30,7 +30,8 @@ class BlogsTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('duration')
+                TextColumn::make('duration'),
+                TextColumn::make('views')
             ])
             ->filters([
                 //
