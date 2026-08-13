@@ -38,7 +38,7 @@ new class extends Component
             @endif
           </div>
           <div id="video_{{$blog->id}}_copy">
-            <span class="text-xs text-[#506070]">24 MIN · {{ $blog->tags->pluck('name')->implode(' · ') }}</span>
+            <span class="text-xs text-[#506070]">Duration {{ $blog->duration }} · Views {{ $blog->views }} · {{ $blog->tags->pluck('name')->implode(' · ') }}</span>
             <h3 class="display mt-2 text-xl font-bold">{{ $blog->title }}</h3>
             <p class="mt-2 text-sm text-[#8AAEC8]">{{ $blog->video }}</p>
           </div>

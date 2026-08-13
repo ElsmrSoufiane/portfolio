@@ -14,6 +14,8 @@ class BlogForm
             ->components([
                 TextInput::make('title')
                     ->required(),
+                TextInput::make('duration')
+                ->placeholder("00:00"),
                 FileUpload::make('video')
                     ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/quicktime'])
                     ->maxSize(100000)

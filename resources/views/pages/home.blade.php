@@ -50,7 +50,7 @@ new class extends Component
         <div id="hero_actions_936172" class="mt-10 flex flex-wrap gap-4">
           <div class="flex  w-full font-bold">
             <div class="h-full  flex items-center">
-          <a id="hero_video_link_782451" href="#videos" class="rounded-lg border border-[#2A4060] px-5 py-3 text-[#E4EEF8] transition duration-500 hover:-translate-y-1 hover:border-[#4A9EE8]">
+          <a id="hero_video_link_782451" href="/blog" wire:navigate class="rounded-lg border border-[#2A4060] px-5 py-3 text-[#E4EEF8] transition duration-500 hover:-translate-y-1 hover:border-[#4A9EE8]">
             Watch tutorials
             <i data-lucide="circle-play" class="ml-2 inline h-4 w-4"></i>
           </a>
@@ -161,7 +161,7 @@ new class extends Component
           <span class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">02 / Tutorials</span>
           <h2 class="display mt-3 text-4xl font-bold">Learn by shipping.</h2>
         </div>
-        <a id="videos_all_link_481625" href="#" class="text-sm text-[#4A9EE8]">View all videos →</a>
+        <a id="videos_all_link_481625" href="/blog" wire:navigate class="text-sm text-[#4A9EE8]">View all videos →</a>
       </div>
       <div id="videos_grid_739214" class="mt-10 grid gap-5 md:grid-cols-2">
         @forelse ($blogs as $blog)
@@ -175,7 +175,7 @@ new class extends Component
             @endif
           </div>
           <div id="video_{{$blog->id}}_copy">
-            <span class="text-xs text-[#506070]">24 MIN · {{ $blog->tags->pluck('name')->implode(' · ') }}</span>
+            <span class="text-xs text-[#506070]">Duration {{ $blog->duration }} · Views {{ $blog->views }} · {{ $blog->tags->pluck('name')->implode(' · ') }}</span>
             <h3 class="display mt-2 text-xl font-bold">{{ $blog->title }}</h3>
             <p class="mt-2 text-sm text-[#8AAEC8]">{{ $blog->video }}</p>
           </div>
