@@ -10,9 +10,11 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -31,6 +33,9 @@ class VideosRelationManager extends RelationManager
                     ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/quicktime'])
                     ->maxSize(100000)
                     ->required(),
+                FileUpload::make('image')
+                    ->image()
+                    ->imageEditor(),
             ]);
     }
 
@@ -39,6 +44,7 @@ class VideosRelationManager extends RelationManager
         return $schema
             ->components([
                 TextEntry::make('title'),
+                ImageEntry::make('image'),
                 TextEntry::make('video'),
             ]);
     }
@@ -48,6 +54,7 @@ class VideosRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('title')
             ->columns([
+                ImageColumn::make('image'),
                 TextColumn::make('title')
                     ->searchable(),
                 TextColumn::make('video')

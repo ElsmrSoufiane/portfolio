@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('project_id')->constrained();
             $table->string('video');
+            $table->string('image');
             $table->string('title');
             $table->timestamps();
         });
