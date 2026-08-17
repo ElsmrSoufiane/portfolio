@@ -19,6 +19,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @filamentStyles
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -35,6 +36,7 @@
     <livewire:footer />
 
     @livewireScripts
+    @filamentScripts
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

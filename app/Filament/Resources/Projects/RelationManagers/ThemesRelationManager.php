@@ -29,7 +29,7 @@ class ThemesRelationManager extends RelationManager
                 TextInput::make('description')
                     ->required(),
                 FileUpload::make('code')
-                    ->acceptedFileTypes(['application/x-rar-compressed', 'application/vnd.rar'])
+                    ->acceptedFileTypes(['application/zip', 'application/x-zip-compressed', 'application/x-rar-compressed', 'application/vnd.rar'])
                     ->required(),
             ]);
     }

@@ -90,7 +90,7 @@ new class extends Component
             <div id="section_{{ $index }}_content" class="mt-6 space-y-5 text-[17px] font-light leading-8 text-[#8AAEC8]">
               @foreach (preg_split('/\R{2,}/', $section->content) as $paragraph)
                 @if (trim($paragraph) !== '')
-                  <p>{{ trim($paragraph) }}</p>
+                  <p>{!! trim($paragraph) !!}</p>
                 @endif
               @endforeach
             </div>

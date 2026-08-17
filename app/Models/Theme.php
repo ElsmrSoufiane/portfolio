@@ -20,6 +20,6 @@ class Theme extends Model
 
     public function themeimages()
     {
-        return $this->belongsTo(Themeimage::class);
+        return $this->hasMany(Themeimage::class);
     }
 }
