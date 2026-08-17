@@ -262,7 +262,7 @@ new class extends Component
       @endif
       @if ($project->themes->isNotEmpty())
         <section id="themes_section_463918" class="nova-shell relative mx-auto max-w-[1280px] px-12 pb-28">
-          <div id="themes_header_740526" class="mb-10">
+          <div id="themes_header_740526" class="mb-14">
             <span class="text-xs uppercase tracking-[.2em] text-[#7EC8F0]">Download themes</span>
             <h2 id="themes_title_285604" class="nova-display mt-4 text-5xl font-bold">
               Take the system with you.
@@ -271,38 +271,56 @@ new class extends Component
               Download the foundational themes and use them as a starting point for your next product.
             </p>
           </div>
-          <div id="theme_cards_641295" class="grid gap-5 md:grid-cols-3">
+          <div id="theme_cards_641295" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             @foreach ($project->themes as $theme)
-              <article id="theme_card_{{ $theme->id }}" class="nova-card nova-hover p-7">
-                <div class="mb-12 flex items-center justify-between">
-                  @if ($theme->themeimages->isNotEmpty())
-                    <img
-                      src="{{ asset('storage/' . $theme->themeimages->first()->image) }}"
-                      alt="{{ $theme->title }}"
-                      class="h-6 w-6 rounded object-cover"
-                    >
-                  @else
-                    <i data-lucide="palette" class="h-6 w-6 text-[#7EC8F0]"></i>
-                  @endif
-                  <span class="text-xs text-[#506070]">
-                    RAR / {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
-                  </span>
+              <article
+                id="theme_card_{{ $theme->id }}"
+                class="group relative flex flex-col overflow-hidden rounded-2xl border border-[#1E2D42] bg-gradient-to-br from-[#151D2B] to-[#111824] p-8 transition-all duration-500 hover:-translate-y-1 hover:border-[#3A6A9A] hover:shadow-[0_8px_40px_-8px_rgba(74,158,232,0.35)]"
+              >
+                <div class="absolute inset-0 bg-gradient-to-br from-[#4A9EE8]/[0.03] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+
+                <div class="relative mb-8 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    @if ($theme->themeimages->isNotEmpty())
+                      <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#1E2D42] bg-[#1A2436]">
+                        <img
+                          src="{{ asset('storage/' . $theme->themeimages->first()->image) }}"
+                          alt="{{ $theme->title }}"
+                          class="h-6 w-6 rounded-md object-cover"
+                        >
+                      </div>
+                    @else
+                      <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#1E2D42] bg-[#1A2436]">
+                        <i data-lucide="palette" class="h-5 w-5 text-[#4A9EE8]"></i>
+                      </div>
+                    @endif
+                    <span class="text-[11px] font-medium uppercase tracking-[.15em] text-[#3A5570]">
+                      RAR / {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
+                    </span>
+                  </div>
                 </div>
-                <h3 class="nova-display text-2xl font-bold">
-                  {{ $theme->title }}
-                </h3>
-                <p class="mt-4 min-h-[84px] leading-7 text-[#8AAEC8]">
-                  {{ $theme->description }}
-                </p>
+
+                <div class="relative flex-1">
+                  <h3 class="nova-display text-xl font-bold text-[#E4EEF8] transition-colors duration-300 group-hover:text-white">
+                    {{ $theme->title }}
+                  </h3>
+                  <p class="mt-3 min-h-[60px] text-[15px] leading-relaxed text-[#6A8AA8]">
+                    {{ $theme->description }}
+                  </p>
+                </div>
+
                 @if ($theme->code)
-                  <a
-                    href="{{ asset('storage/' . $theme->code) }}"
-                    download
-                    class="nova-hover mt-8 flex w-full items-center justify-center gap-2 rounded-lg border border-[#2A4060] px-5 py-3 text-sm text-[#E4EEF8]"
-                  >
-                    <i data-lucide="download" class="h-4 w-4"></i>
-                    Download RAR
-                  </a>
+                  <div class="relative mt-8 pt-6">
+                    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#2A4060] to-transparent"></div>
+                    <a
+                      href="{{ asset('storage/' . $theme->code) }}"
+                      download
+                      class="flex w-full items-center justify-center gap-2.5 rounded-xl border border-[#2A4060]/60 bg-[#1A2A40]/50 px-5 py-3 text-sm font-medium text-[#B0D0E8] transition-all duration-300 hover:border-[#4A9EE8]/40 hover:bg-[#4A9EE8]/10 hover:text-white hover:shadow-lg hover:shadow-[#4A9EE8]/10"
+                    >
+                      <i data-lucide="download" class="h-4 w-4 opacity-70"></i>
+                      Download theme
+                    </a>
+                  </div>
                 @endif
               </article>
             @endforeach
