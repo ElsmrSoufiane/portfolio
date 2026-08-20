@@ -29,6 +29,7 @@ class UserPanelProvider extends PanelProvider
             ->registration()
             ->id('user')
             ->path('user')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Sky,
             ])

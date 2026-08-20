@@ -2,16 +2,26 @@
 
 namespace App\Filament\Pages;
 
+use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Contracts\Support\Htmlable;
 
 class Chat extends Page
 {
-    protected static ?string $navigationLabel = 'Chat';
+    protected string $view = 'filament.pages.chat';
 
-    protected static string|Heroicon|null $navigationIcon = Heroicon::OutlinedChatBubbleLeft;
+    public static function getNavigationLabel(): string
+    {
+        return 'Chat';
+    }
 
-    protected static ?string $navigationGroup = 'Chat';
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
+    {
+        return Heroicon::OutlinedChatBubbleLeft;
+    }
+
+
 
     public static function getNavigationBadge(): ?string
     {
@@ -22,6 +32,4 @@ class Chat extends Page
     {
         return 'info';
     }
-
-    protected string $view = 'filament.pages.chat';
 }
