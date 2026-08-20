@@ -1,6 +1,6 @@
 <x-filament-panels::page>
   <div id="chat_root_739184" style="height: 100%; width: 100%; font-family: Inter, system-ui, sans-serif; color: #183247; background: linear-gradient(145deg, #eaf8ff 0%, #d7f0ff 100%);">
-  <main id="chat_shell_482761" class="flex h-full min-h-screen w-full flex-col">
+  <div id="chat_shell_482761" class="flex h-full min-h-screen w-full flex-col">
     <header id="chat_header_618305" class="flex items-center justify-between border-b border-sky-200 bg-sky-500 px-5 py-4 shadow-[0_4px_6px_rgba(14,116,144,0.18)] sm:px-8">
       <div id="person_info_274930" class="flex items-center gap-3">
         <div id="avatar_wrap_905172" class="relative">
@@ -83,26 +83,29 @@
         </article>
       </div>
     </section>
-    <form id="message_composer_305716" class="border-t border-sky-200 bg-white/90 px-4 py-4 shadow-[0_-4px_6px_rgba(14,116,144,0.08)] backdrop-blur sm:px-8">
-      <div id="composer_inner_416827" class="mx-auto flex w-[90%] items-end gap-2 rounded-2xl bg-sky-50 p-3 ring-2 ring-sky-200 transition focus-within:ring-sky-500">
-        <button id="attach_button_527938" type="button" aria-label="Attach file" class="mb-1 rounded-lg p-2 text-sky-600 transition hover:bg-white hover:text-sky-700">
+    <form id="message_composer_305716" class="border-t border-sky-200/60 bg-transparent px-4 py-5 sm:px-8">
+      <div id="composer_inner_416827" class="mx-auto flex w-full max-w-3xl items-end gap-2 rounded-3xl border border-sky-200 bg-white/90 px-3 py-3 shadow-sm backdrop-blur-sm transition focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-100">
+        <button id="attach_button_527938" type="button" aria-label="Attach file" class="mb-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sky-500 transition hover:bg-sky-100 hover:text-sky-700">
           <i data-lucide="paperclip" class="h-5 w-5">
           </i>
         </button>
-        <textarea id="message_input_638049" rows="6" placeholder="Write a message..." class="min-h-[150px] flex-1 resize-none bg-white px-3 py-3 text-sm leading-6 text-slate-800 outline-none placeholder:text-sky-400">
+        <textarea id="message_input_638049" rows="3" placeholder="Write a message..." class="max-h-40 min-h-[88px] flex-1 resize-none self-center bg-transparent px-1 py-2 text-sm leading-6 text-slate-800 outline-none placeholder:text-sky-400">
         </textarea>
-        <div id="composer_actions_582716" class="flex flex-col gap-1">
-          <button id="emoji_button_749150" type="button" aria-label="Add emoji" class="rounded-lg p-2 text-sky-600 transition hover:bg-white hover:text-sky-700">
+        <div id="composer_actions_582716" class="mb-1 flex shrink-0 flex-col gap-1">
+          <button id="emoji_button_749150" type="button" aria-label="Add emoji" class="flex h-9 w-9 items-center justify-center rounded-full text-sky-500 transition hover:bg-sky-100 hover:text-sky-700">
             <i data-lucide="smile" class="h-5 w-5">
             </i>
           </button>
-          <button id="send_button_693405" type="submit" aria-label="Send message" class="rounded-lg bg-sky-500 p-2 text-white shadow-sm transition hover:bg-sky-600">
-            <i data-lucide="send" class="h-5 w-5">
-            </i>
-          </button>
+          <x-filament::icon-button
+              icon="heroicon-m-arrow-right"
+              color="primary"
+              size="sm"
+              label="Send message"
+              type="submit"
+          />
         </div>
       </div>
     </form>
-  </main>
+  </div>
 </div>
 </x-filament-panels::page>
