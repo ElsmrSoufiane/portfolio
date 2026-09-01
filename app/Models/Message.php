@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['fromId', 'toId', 'content','seen'])]
-class Message extends Model
-{
-          
-}
+#[Fillable(['conversation_id', 'user_id', 'content'])]
+class Message extends Model {}
