@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Kirschbaum\Commentions\Contracts\Commenter;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\UserRole;
 use Database\Factories\UserFactory;
@@ -15,7 +16,7 @@ use Illuminate\Notifications\Notifiable;
 
 #[Fillable(['name', 'email', 'password', 'role'])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser,Commenter
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;

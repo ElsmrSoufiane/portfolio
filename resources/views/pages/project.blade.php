@@ -1,6 +1,7 @@
 <?php
 use Livewire\Component;
 use App\Models\Project;
+use App\Models\User;
 new class extends Component
 {
     public Project $project;
@@ -327,6 +328,19 @@ new class extends Component
           </div>
         </section>
       @endif
+      <section id="comments_section_817364" class="nova-shell relative mx-auto max-w-[1280px] px-12 pb-28">
+        <div id="comments_header_740526" class="mb-12">
+          <span class="text-xs uppercase tracking-[.2em] text-[#7EC8F0]">Comments</span>
+          <h2 id="comments_title_285604" class="nova-display mt-4 text-5xl font-bold">
+            Discussion
+          </h2>
+        </div>
+        @livewire('commentions.comments', [
+            'record' => $project,
+            'mentionables' => User::all(),
+            'readonly' => false,
+        ])
+      </section>
     </main>
   </div>
 </div>

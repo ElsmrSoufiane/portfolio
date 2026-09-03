@@ -2,6 +2,7 @@
 
 use Livewire\Component;
 use App\Models\Blog;
+use App\Models\User;
 
 new class extends Component
 {
@@ -102,7 +103,20 @@ new class extends Component
         @endforelse
       </article>
     </section>
+    <section id="comments_section_608431" class="mx-auto max-w-[1280px] px-6 pb-24 lg:px-12">
+      <div class="max-w-3xl">
+        <span class="text-xs uppercase tracking-[.2em] text-[#7EC8F0]">Comments</span>
+        <h2 id="comments_title_390571" class="display mt-4 text-5xl font-bold">
+          Discussion
+        </h2>
+      </div>
+      <div class="max-w-3xl">
+        @livewire('commentions.comments', [
+            'record' => $blog,
+            'mentionables' => User::all(),
+            'readonly' => false,
+        ])
+      </div>
+    </section>
   </main>
-</div>
-
 </div>

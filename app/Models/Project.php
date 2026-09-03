@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Kirschbaum\Commentions\HasComments;
+use Kirschbaum\Commentions\Contracts\Commentable;
 
-class Project extends Model
+class Project extends Model implements Commentable
 {
+    use HasComments;
+
     protected $fillable = [
         'title',
         'description',
