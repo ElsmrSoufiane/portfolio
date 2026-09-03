@@ -107,14 +107,21 @@ new class extends Component
       <div class="max-w-3xl">
         <span class="text-xs uppercase tracking-[.2em] text-[#7EC8F0]">Comments</span>
         <h2 id="comments_title_390571" class="display mt-4 text-5xl font-bold">
-          Discussion
+          Discussion <span class="text-[#4A9EE8]">({{ $blog->comments()->count() }})</span>
         </h2>
+        @guest
+          <p class="mt-4 text-[#8AAEC8]">
+            <a href="/user/login" class="text-[#4A9EE8] hover:underline">Log in</a>
+            to share your opinion.
+          </p>
+        @endguest
       </div>
-      <div class="max-w-3xl">
+      <div class="dark">
         @livewire('commentions.comments', [
             'record' => $blog,
             'mentionables' => User::all(),
             'readonly' => false,
+            'sidebarEnabled' => false,
         ])
       </div>
     </section>
