@@ -17,6 +17,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 
@@ -32,6 +33,8 @@ class Chat extends Page
     public ?int $conversationId = null;
 
     public bool $otherUserOnline = false;
+
+    public bool $hasMoreMessages = false;
 
     protected string $view = 'filament.pages.chat';
 
@@ -93,8 +96,9 @@ class Chat extends Page
             return;
         }
 
-        $this->loadMessages();
         $this->loadOtherUser();
+
+        $this->appendIncomingMessage($message);
 
         $this->markConversationRead();
     }
@@ -102,19 +106,34 @@ class Chat extends Page
     #[On('message-read')]
     public function onMessageRead(array $messageIds, ?int $conversationId = null): void
     {
-        $this->loadMessages();
+        $this->refreshReadStatus($messageIds);
     }
 
     #[On('message-updated')]
     public function onMessageUpdated(int $messageId, ?int $conversationId = null): void
     {
-        $this->loadMessages();
+        if ($conversationId !== null && (int) $conversationId !== $this->conversationId) {
+            return;
+        }
+
+        foreach ($this->messages as $index => $message) {
+            if ($message['id'] === $messageId) {
+                $this->messages[$index]['content'] = Message::query()->where('id', $messageId)->value('content');
+            }
+        }
     }
 
     #[On('message-deleted')]
     public function onMessageDeleted(int $messageId, ?int $conversationId = null): void
     {
-        $this->loadMessages();
+        if ($conversationId !== null && (int) $conversationId !== $this->conversationId) {
+            return;
+        }
+
+        $this->messages = array_values(array_filter(
+            $this->messages,
+            fn (array $message): bool => $message['id'] !== $messageId,
+        ));
     }
 
     #[On('presence-updated')]
@@ -211,13 +230,89 @@ class Chat extends Page
 
         $this->messages = Message::query()
             ->where('conversation_id', $conversation->id)
-            ->orderBy('created_at')
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->limit(10)
             ->get()
+            ->reverse()
+            ->values()
             ->map(fn (Message $message) => $this->messagePayload($message))
             ->all();
+
+        $this->hasMoreMessages = ! empty($this->messages) && Message::query()
+            ->where('conversation_id', $conversation->id)
+            ->where('id', '<', $this->messages[0]['id'])
+            ->exists();
+    }
+
+    public function loadOlderMessages(): void
+    {
+        if (empty($this->messages) || ! $this->hasMoreMessages) {
+            return;
+        }
+
+        $admin = $this->admin();
+        $conversation = Conversation::between(auth()->id(), $admin->id);
+
+        $oldestId = $this->messages[0]['id'];
+
+        $older = Message::query()
+            ->where('conversation_id', $conversation->id)
+            ->where('id', '<', $oldestId)
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->limit(10)
+            ->get()
+            ->reverse()
+            ->values()
+            ->map(fn (Message $message) => $this->messagePayload($message))
+            ->all();
+
+        $this->messages = array_merge($older, $this->messages);
+        $this->hasMoreMessages = count($older) === 10;
+    }
+
+    protected function appendIncomingMessage(array $message): void
+    {
+        $id = (int) ($message['id'] ?? 0);
+
+        if ($id === 0 || in_array($id, array_column($this->messages, 'id'), true)) {
+            return;
+        }
+
+        $model = Message::query()
+            ->with('user')
+            ->where('id', $id)
+            ->first();
+
+        if ($model === null) {
+            return;
+        }
+
+        $this->messages[] = $this->messagePayload($model);
+    }
+
+    protected function refreshReadStatus(array $messageIds): void
+    {
+        $ids = array_map('intval', $messageIds);
+
+        foreach ($this->messages as $index => $message) {
+            if (in_array($message['id'], $ids, true)) {
+                $this->messages[$index]['read'] = true;
+            }
+        }
     }
 
     public function markConversationRead(): void
+    {
+        $affectedIds = $this->markIncomingAsRead();
+
+        if ($affectedIds->isNotEmpty()) {
+            $this->refreshReadStatus($affectedIds->all());
+        }
+    }
+
+    protected function markIncomingAsRead(): Collection
     {
         $admin = $this->admin();
         $conversation = Conversation::between(auth()->id(), $admin->id);
@@ -228,7 +323,7 @@ class Chat extends Page
             ->pluck('id');
 
         if ($affectedIds->isEmpty()) {
-            return;
+            return $affectedIds;
         }
 
         $conversation->markAsReadFor(auth()->id());
@@ -239,7 +334,7 @@ class Chat extends Page
             messageIds: $affectedIds->map(fn (int $id): int => (int) $id)->all(),
         );
 
-        $this->loadMessages();
+        return $affectedIds;
     }
 
     protected function loadOtherUser(): void

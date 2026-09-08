@@ -67,8 +67,23 @@
               <i data-lucide="menu" class="h-5 w-5"></i>
             </button>
           </header>
-          <section id="messages_area_290517" aria-label="Messages" class="flex-1 overflow-y-auto px-4 py-7 sm:px-8">
+          <section id="messages_area_290517" aria-label="Messages"
+            x-data="{ loadingOlder: false }"
+            class="flex-1 overflow-y-auto px-4 py-7 sm:px-8"
+            x-ref="scrollArea"
+            x-init="$nextTick(() => { $el.scrollTo({ top: $el.scrollHeight, behavior: 'auto' }); })">
             <div id="message_list_809263" class="mx-auto flex w-full max-w-3xl flex-col gap-5">
+              @if ($hasMoreMessages)
+                <div class="flex justify-center pb-2">
+                  <button type="button"
+                          x-on:click="loadingOlder = true; const top = $refs.scrollArea.scrollTop; $wire.loadOlderMessages().then(() => { $refs.scrollArea.scrollTop = top; loadingOlder = false; })"
+                          x-bind:disabled="loadingOlder"
+                          class="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-white px-4 py-2 text-sm font-medium text-sky-700 shadow-sm transition hover:bg-sky-50 hover:text-sky-800 disabled:cursor-not-allowed disabled:opacity-70">
+                    <x-filament::loading-indicator x-show="loadingOlder" class="h-4 w-4" />
+                    <span x-text="loadingOlder ? 'Loading...' : 'Load older messages'"></span>
+                  </button>
+                </div>
+              @endif
               @forelse ($messages as $message)
                 <article class="flex items-end gap-2 @if ($message['is_own']) justify-end @endif"
                          wire:key="msg-{{ $message['id'] }}"

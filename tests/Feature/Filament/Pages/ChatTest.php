@@ -84,4 +84,108 @@ class ChatTest extends TestCase
             ->test(Chat::class)
             ->assertSet('messages.0.read', true);
     }
+
+    public function test_mount_loads_only_the_last_ten_messages(): void
+    {
+        $admin = $this->adminUser();
+        $customer = User::factory()->create();
+        $conversation = Conversation::between($customer->id, $admin->id);
+
+        $messages = collect(range(1, 15))->map(
+            fn (int $i): Message => Message::factory()->create([
+                'conversation_id' => $conversation->id,
+                'user_id' => $customer->id,
+                'content' => "Message {$i}",
+            ])
+        );
+
+        $component = Livewire::actingAs($customer)
+            ->test(Chat::class)
+            ->assertCount('messages', 10)
+            ->assertSet('hasMoreMessages', true);
+
+        $loadedIds = collect($component->get('messages'))->pluck('id')->all();
+
+        $this->assertEquals($messages->slice(5)->pluck('id')->all(), $loadedIds);
+    }
+
+    public function test_load_messages_does_not_indicate_more_when_ten_or_fewer(): void
+    {
+        $admin = $this->adminUser();
+        $customer = User::factory()->create();
+        $conversation = Conversation::between($customer->id, $admin->id);
+
+        Message::factory()->count(5)->create([
+            'conversation_id' => $conversation->id,
+            'user_id' => $customer->id,
+        ]);
+
+        Livewire::actingAs($customer)
+            ->test(Chat::class)
+            ->assertCount('messages', 5)
+            ->assertSet('hasMoreMessages', false);
+    }
+
+    public function test_load_older_messages_fetches_the_previous_batch(): void
+    {
+        $admin = $this->adminUser();
+        $customer = User::factory()->create();
+        $conversation = Conversation::between($customer->id, $admin->id);
+
+        $messages = collect(range(1, 25))->map(
+            fn (int $i): Message => Message::factory()->create([
+                'conversation_id' => $conversation->id,
+                'user_id' => $customer->id,
+                'content' => "Message {$i}",
+            ])
+        );
+
+        $component = Livewire::actingAs($customer)
+            ->test(Chat::class)
+            ->assertCount('messages', 10);
+
+        $component->call('loadOlderMessages')
+            ->assertCount('messages', 20)
+            ->assertSet('hasMoreMessages', true);
+
+        $loadedIds = collect($component->get('messages'))->pluck('id')->all();
+
+        $this->assertEquals($messages->slice(5)->pluck('id')->all(), $loadedIds);
+    }
+
+    public function test_load_older_messages_hides_button_when_all_loaded(): void
+    {
+        $admin = $this->adminUser();
+        $customer = User::factory()->create();
+        $conversation = Conversation::between($customer->id, $admin->id);
+
+        Message::factory()->count(15)->create([
+            'conversation_id' => $conversation->id,
+            'user_id' => $customer->id,
+        ]);
+
+        Livewire::actingAs($customer)
+            ->test(Chat::class)
+            ->call('loadOlderMessages')
+            ->assertCount('messages', 15)
+            ->assertSet('hasMoreMessages', false);
+    }
+
+    public function test_load_older_messages_does_nothing_when_no_more_exist(): void
+    {
+        $admin = $this->adminUser();
+        $customer = User::factory()->create();
+        $conversation = Conversation::between($customer->id, $admin->id);
+
+        Message::factory()->count(5)->create([
+            'conversation_id' => $conversation->id,
+            'user_id' => $customer->id,
+        ]);
+
+        Livewire::actingAs($customer)
+            ->test(Chat::class)
+            ->call('loadOlderMessages')
+            ->assertCount('messages', 5)
+            ->assertSet('hasMoreMessages', false);
+    }
 }

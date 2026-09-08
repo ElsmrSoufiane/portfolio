@@ -289,4 +289,99 @@ class AdminChatTest extends TestCase
             ])
             ->assertOk();
     }
+
+    public function test_mount_loads_only_the_last_ten_messages(): void
+    {
+        $admin = $this->adminUser();
+        $customer = User::factory()->create();
+        $conversation = $this->conversationBetween($admin, $customer);
+
+        $messages = collect(range(1, 15))->map(
+            fn (int $i): Message => Message::factory()->create([
+                'conversation_id' => $conversation->id,
+                'user_id' => $customer->id,
+                'content' => "Message {$i}",
+            ])
+        );
+
+        $component = Livewire::actingAs($admin)
+            ->test(AdminChat::class)
+            ->assertCount('messages', 10)
+            ->assertSet('hasMoreMessages', true);
+
+        $loadedIds = collect($component->get('messages'))->pluck('id')->all();
+
+        $this->assertEquals($messages->slice(5)->pluck('id')->all(), $loadedIds);
+    }
+
+    public function test_load_messages_does_not_indicate_more_when_ten_or_fewer(): void
+    {
+        $admin = $this->adminUser();
+        $customer = User::factory()->create();
+        $conversation = $this->conversationBetween($admin, $customer);
+
+        Message::factory()->count(5)->create([
+            'conversation_id' => $conversation->id,
+            'user_id' => $customer->id,
+        ]);
+
+        Livewire::actingAs($admin)
+            ->test(AdminChat::class)
+            ->assertCount('messages', 5)
+            ->assertSet('hasMoreMessages', false);
+    }
+
+    public function test_load_older_messages_fetches_the_previous_batch(): void
+    {
+        $admin = $this->adminUser();
+        $customer = User::factory()->create();
+        $conversation = $this->conversationBetween($admin, $customer);
+
+        $messages = collect(range(1, 25))->map(
+            fn (int $i): Message => Message::factory()->create([
+                'conversation_id' => $conversation->id,
+                'user_id' => $customer->id,
+                'content' => "Message {$i}",
+            ])
+        );
+
+        $component = Livewire::actingAs($admin)
+            ->test(AdminChat::class)
+            ->assertCount('messages', 10);
+
+        $component->call('loadOlderMessages')
+            ->assertCount('messages', 20)
+            ->assertSet('hasMoreMessages', true);
+
+        $loadedIds = collect($component->get('messages'))->pluck('id')->all();
+
+        $this->assertEquals($messages->slice(5)->pluck('id')->all(), $loadedIds);
+    }
+
+    public function test_switch_conversation_resets_pagination(): void
+    {
+        $admin = $this->adminUser();
+        $customer = User::factory()->create();
+        $first = $this->conversationBetween($admin, $customer);
+        $second = $this->conversationBetween($admin, $customer);
+
+        Message::factory()->count(15)->create([
+            'conversation_id' => $first->id,
+            'user_id' => $customer->id,
+        ]);
+
+        Message::factory()->count(3)->create([
+            'conversation_id' => $second->id,
+            'user_id' => $customer->id,
+        ]);
+
+        $component = Livewire::actingAs($admin)
+            ->test(AdminChat::class)
+            ->assertCount('messages', 10)
+            ->assertSet('hasMoreMessages', true);
+
+        $component->call('switchConversation', $second->id)
+            ->assertCount('messages', 3)
+            ->assertSet('hasMoreMessages', false);
+    }
 }
