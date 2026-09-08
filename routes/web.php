@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\LocaleController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/locale/{locale}', LocaleController::class)
+    ->whereIn('locale', ['en', 'fr', 'ar'])
+    ->name('locale.switch');
 
 Route::livewire('/', 'pages::home');
 Route::livewire('/about', 'pages::about');

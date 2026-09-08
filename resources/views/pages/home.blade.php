@@ -117,7 +117,7 @@ new class extends Component
           <span class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">01 / Selected work</span>
           <h2 class="display mt-3 text-4xl font-bold">Products built to be used.</h2>
         </div>
-        <a id="projects_contact_link_381926" href="https://wa.me/212612345678" target="_blank" rel="noopener" class="hidden text-sm text-[#8AAEC8] md:block">
+        <a id="projects_contact_link_381926" href="https://wa.me/212766548709" target="_blank" rel="noopener" class="hidden text-sm text-[#8AAEC8] md:block">
           Need something similar?
           <span class="text-[#4A9EE8]">Let's talk →</span>
         </a>

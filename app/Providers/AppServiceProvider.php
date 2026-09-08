@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Vite;
@@ -22,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $switch->locales(['en', 'fr', 'ar']);
+        });
         FilamentAsset::register([
             Js::make('chat', Vite::asset('resources/js/chat.js'))->module(),
         ]);
