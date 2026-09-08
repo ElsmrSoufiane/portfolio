@@ -29,7 +29,7 @@
 <body style="background:#0F1319; color:#E4EEF8; font-family:'DM Sans',system-ui,sans-serif;">
     <livewire:nav />
     
-    <main>
+    <main class="pt-10">
         {{ $slot }}
     </main>
 

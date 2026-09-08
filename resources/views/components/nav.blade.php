@@ -8,27 +8,50 @@ new class extends Component
 };
 ?>
 
-<header id="nav_517304" class="mx-auto flex max-w-[1280px] items-center justify-between px-6 py-6 lg:px-12">
-  <a id="brand_681924" href="#home" class="display text-xl font-bold text-[#E4EEF8]">
-    lasmarsoufiane
-    <span class="text-[#4A9EE8]">.dev</span>
-  </a>
-  <nav id="main_nav_473816" class="hidden items-center gap-8 text-sm text-[#8AAEC8] md:flex">
-    <a id="nav_home_829461" href="/" wire:current.exact="!bg-sky-100 !text-black !p-2 !font-bold !rounded-sm" wire:navigate class="transition hover:-translate-y-0.5 hover:text-white">Home</a>
-    <a id="nav_about_514738" href="/about" wire:current.exact="!bg-sky-100 !text-black !p-2 !font-bold !rounded-sm" wire:navigate class="transition hover:-translate-y-0.5 hover:text-white">About</a>
-    <a id="nav_projects_693182" href="/projects" wire:current.exact="!bg-sky-100 !text-black !p-2 !font-bold !rounded-sm" wire:navigate class="transition hover:-translate-y-0.5 hover:text-white">Projects</a>
-    <a id="nav_blog_746291" href="/blog" wire:current.exact="!bg-sky-100 !text-black !p-2 !font-bold !rounded-sm" wire:navigate class="transition hover:-translate-y-0.5 hover:text-white">Blog</a>
-  </nav>
-  <div id="auth_actions_492781" class="flex items-center gap-3">
-    @guest()
-    <a id="sign_in_link_739416" href="/user/register" class="rounded-lg border border-[#2A4060] px-4 py-2.5 text-sm font-semibold text-[#E4EEF8] transition duration-500 hover:-translate-y-0.5 hover:border-[#4A9EE8] hover:text-white">Sign in</a>
-    <a id="log_in_link_825174" href="/user/login" class="rounded-lg bg-[#4A9EE8] px-4 py-2.5 text-sm font-semibold text-[#0F1319] transition duration-500 hover:scale-105 hover:bg-[#7EC8F0]">
-      Log in
-      <i data-lucide="log-in" class="ml-1 inline h-4 w-4"></i>
+<nav class="bg-[#0F1319] fixed w-full z-20 top-0 start-0 border-b border-[#1E2D42]" x-data="{ mobileOpen: false }">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <a href="/" wire:navigate class="flex items-center space-x-3 rtl:space-x-reverse">
+      <span class="self-center text-xl text-[#E4EEF8] font-semibold whitespace-nowrap">lasmarsoufiane<span class="text-[#4A9EE8]">.dev</span></span>
     </a>
-    @endguest
-    @auth()
-    <a id="space_link_739416" href="/user"  class="rounded-lg bg-[#4A9EE8] px-4 py-2.5 text-sm font-semibold text-[#0F1319] transition duration-500 hover:scale-105 hover:bg-[#7EC8F0]">{{ strtoupper(Str::substr(auth()->user()->name, 0, 2)) }}</a>
-    @endauth
+    <button x-on:click="mobileOpen = !mobileOpen" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-[#8AAEC8] rounded-lg md:hidden hover:bg-[#1A2130] hover:text-[#E4EEF8] focus:outline-none focus:ring-2 focus:ring-[#2A4060]" aria-controls="navbar-default" :aria-expanded="mobileOpen.toString()">
+      <span class="sr-only">Open main menu</span>
+      <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/></svg>
+    </button>
+    <div class="w-full md:block md:w-auto" id="navbar-default" :class="mobileOpen ? '' : 'hidden'">
+      <ul class="font-medium flex flex-col gap-3 mt-4 p-4 border border-[#1E2D42] rounded-lg bg-[#1A2130] md:flex-row md:items-center md:gap-8 md:p-0 md:mt-0 md:border-0 md:bg-transparent">
+        <li>
+          <a href="/" wire:current.exact="!bg-[#4A9EE8] !text-[#0F1319] md:!bg-transparent md:!text-[#4A9EE8]" wire:navigate class="block py-2 px-3 text-[#E4EEF8] rounded-lg hover:bg-[#1E2D42] md:hover:bg-transparent md:border-0 md:hover:text-[#4A9EE8] md:p-0">Home</a>
+        </li>
+        <li>
+          <a href="/about" wire:current.exact="!bg-[#4A9EE8] !text-[#0F1319] md:!bg-transparent md:!text-[#4A9EE8]" wire:navigate class="block py-2 px-3 text-[#E4EEF8] rounded-lg hover:bg-[#1E2D42] md:hover:bg-transparent md:border-0 md:hover:text-[#4A9EE8] md:p-0">About</a>
+        </li>
+        <li>
+          <a href="/projects" wire:current.exact="!bg-[#4A9EE8] !text-[#0F1319] md:!bg-transparent md:!text-[#4A9EE8]" wire:navigate class="block py-2 px-3 text-[#E4EEF8] rounded-lg hover:bg-[#1E2D42] md:hover:bg-transparent md:border-0 md:hover:text-[#4A9EE8] md:p-0">Projects</a>
+        </li>
+        <li>
+          <a href="/blog" wire:current.exact="!bg-[#4A9EE8] !text-[#0F1319] md:!bg-transparent md:!text-[#4A9EE8]" wire:navigate class="block py-2 px-3 text-[#E4EEF8] rounded-lg hover:bg-[#1E2D42] md:hover:bg-transparent md:border-0 md:hover:text-[#4A9EE8] md:p-0">Blog</a>
+        </li>
+        <li class="border-t border-[#1E2D42] md:hidden"></li>
+        @guest()
+        <li>
+          <a href="/user/register" class="block rounded-lg border border-[#2A4060] px-4 py-2.5 text-center text-sm font-semibold text-[#E4EEF8] transition duration-500 hover:-translate-y-0.5 hover:border-[#4A9EE8] hover:text-white">Sign in</a>
+        </li>
+        <li>
+          <a href="/user/login" class="block rounded-lg bg-[#4A9EE8] px-4 py-2.5 text-center text-sm font-semibold text-[#0F1319] transition duration-500 hover:scale-105 hover:bg-[#7EC8F0]">Log in</a>
+        </li>
+        @endguest
+        @auth()
+        <li>
+          <a href="/user" class="block rounded-lg bg-[#4A9EE8] px-4 py-2.5 text-center text-sm font-semibold text-[#0F1319] transition duration-500 hover:scale-105 hover:bg-[#7EC8F0]">{{ strtoupper(Str::substr(auth()->user()->name, 0, 2)) }}</a>
+        </li>
+        <li>
+          <form method="POST" action="{{ route('filament.user.auth.logout') }}">
+            @csrf
+            <button type="submit" class="block w-full rounded-lg border border-[#2A4060] px-4 py-2.5 text-center text-sm font-semibold text-[#E4EEF8] transition duration-500 hover:-translate-y-0.5 hover:border-[#4A9EE8] hover:text-white">Log out</button>
+          </form>
+        </li>
+        @endauth
+      </ul>
+    </div>
   </div>
-</header>
+</nav>
