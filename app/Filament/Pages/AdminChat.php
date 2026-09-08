@@ -2,6 +2,10 @@
 
 namespace App\Filament\Pages;
 
+use App\Events\MessageDeleted;
+use App\Events\MessageRead;
+use App\Events\MessageSent;
+use App\Events\MessageUpdated;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\User;
@@ -13,6 +17,7 @@ use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 
 class AdminChat extends Page
@@ -25,6 +30,8 @@ class AdminChat extends Page
     public array $messages = [];
 
     public ?int $activeConversationId = null;
+
+    public array $onlineUserIds = [];
 
     protected string $view = 'filament.pages.admin-chat';
 
@@ -45,6 +52,10 @@ class AdminChat extends Page
         $this->activeConversationId ??= $this->conversations[0]['id'] ?? null;
 
         $this->loadMessages();
+
+        if ($this->activeConversationId !== null) {
+            $this->markConversationRead($this->activeConversationId);
+        }
     }
 
     public function switchConversation(int $id)
@@ -55,6 +66,7 @@ class AdminChat extends Page
         $this->reset('message');
 
         $this->loadMessages();
+        $this->markConversationRead($id);
     }
 
     public function send()
@@ -63,7 +75,7 @@ class AdminChat extends Page
 
         $conversation = $this->getActiveConversationModel();
 
-        Message::create(
+        $message = Message::create(
             [
                 'conversation_id' => $conversation->id,
                 'user_id' => auth()->id(),
@@ -71,6 +83,9 @@ class AdminChat extends Page
             ]
         );
 
+        broadcast(new MessageSent($message))->toOthers();
+
+        $this->loadConversations();
         $this->loadMessages();
         $this->reset('message');
 
@@ -78,6 +93,54 @@ class AdminChat extends Page
             ->title('message has been sent')
             ->success()
             ->send();
+    }
+
+    #[On('message-sent')]
+    public function onMessageSent(array $message): void
+    {
+        $conversationId = (int) ($message['conversation_id'] ?? 0);
+
+        if ($conversationId !== $this->activeConversationId) {
+            $this->loadConversations();
+
+            return;
+        }
+
+        if ((int) ($message['user_id'] ?? 0) === auth()->id()) {
+            return;
+        }
+
+        $this->loadConversations();
+        $this->loadMessages();
+        $this->markConversationRead($conversationId);
+    }
+
+    #[On('message-read')]
+    public function onMessageRead(array $messageIds, ?int $conversationId = null): void
+    {
+        $this->loadConversations();
+        $this->loadMessages();
+    }
+
+    #[On('message-updated')]
+    public function onMessageUpdated(int $messageId, ?int $conversationId = null): void
+    {
+        $this->loadConversations();
+        $this->loadMessages();
+    }
+
+    #[On('message-deleted')]
+    public function onMessageDeleted(int $messageId, ?int $conversationId = null): void
+    {
+        $this->loadConversations();
+        $this->loadMessages();
+    }
+
+    #[On('presence-updated')]
+    public function onPresenceUpdated(array $onlineUserIds): void
+    {
+        $this->onlineUserIds = array_map('intval', $onlineUserIds);
+        $this->loadConversations();
     }
 
     public function editAction(): Action
@@ -106,6 +169,15 @@ class AdminChat extends Page
                     ->first();
 
                 $message?->update(['content' => $data['content']]);
+
+                if ($message !== null) {
+                    broadcast(new MessageUpdated(
+                        messageId: $message->id,
+                        conversationId: $message->conversation_id,
+                        content: $message->content,
+                    ));
+                }
+
                 $this->loadMessages();
 
                 Notification::make()
@@ -129,6 +201,14 @@ class AdminChat extends Page
                     ->first();
 
                 $message?->delete();
+
+                if ($message !== null) {
+                    broadcast(new MessageDeleted(
+                        messageId: $message->id,
+                        conversationId: $message->conversation_id,
+                    ));
+                }
+
                 $this->loadMessages();
 
                 Notification::make()
@@ -156,11 +236,8 @@ class AdminChat extends Page
             ])
             ->get()
             ->map(function (Conversation $conversation): array {
-                $userId = $conversation->user_one_id === auth()->id()
-                    ? $conversation->user_two_id
-                    : $conversation->user_one_id;
-
-                $user = User::query()->find($userId);
+                $userId = $conversation->otherUserId(auth()->id());
+                $user = $userId !== null ? User::query()->find($userId) : null;
                 $lastMessage = $conversation->messages->first();
 
                 return [
@@ -170,7 +247,10 @@ class AdminChat extends Page
                     'status' => $lastMessage
                         ? $lastMessage->created_at->format('g:i A')
                         : 'No messages yet',
-                    'is_recent' => $lastMessage?->created_at->gt(now()->subMinutes(5)) ?? false,
+                    'is_recent' => ($lastMessage?->created_at->gt(now()->subMinutes(5)) ?? false),
+                    'unread' => $conversation->unreadCountFor(auth()->id()),
+                    'online' => $userId !== null
+                        && in_array($userId, $this->onlineUserIds, true),
                 ];
             })
             ->sortByDesc('id')
@@ -196,8 +276,38 @@ class AdminChat extends Page
                 'is_own' => $message->user_id === auth()->id(),
                 'content' => $message->content,
                 'time' => $message->created_at->format('g:i A'),
+                'read' => $message->read_at !== null,
             ])
             ->all();
+    }
+
+    protected function markConversationRead(int $conversationId): void
+    {
+        $conversation = Conversation::query()->find($conversationId);
+
+        if ($conversation === null || ! $conversation->isParticipant(auth()->id())) {
+            return;
+        }
+
+        $affectedIds = $conversation->messages()
+            ->notFromUser(auth()->id())
+            ->unread()
+            ->pluck('id');
+
+        if ($affectedIds->isEmpty()) {
+            return;
+        }
+
+        $conversation->markAsReadFor(auth()->id());
+
+        broadcast(new MessageRead(
+            conversationId: $conversation->id,
+            userId: auth()->id(),
+            messageIds: $affectedIds->map(fn (int $id): int => (int) $id)->all(),
+        ));
+
+        $this->loadConversations();
+        $this->loadMessages();
     }
 
     protected function getActiveConversationModel(): Conversation

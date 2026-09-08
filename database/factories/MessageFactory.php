@@ -23,6 +23,14 @@ class MessageFactory extends Factory
             'conversation_id' => Conversation::factory(),
             'user_id' => User::factory(),
             'content' => fake()->sentence(),
+            'read_at' => null,
         ];
+    }
+
+    public function read(): static
+    {
+        return $this->state(fn (): array => [
+            'read_at' => now(),
+        ]);
     }
 }

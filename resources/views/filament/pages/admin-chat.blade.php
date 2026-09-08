@@ -2,7 +2,12 @@
 
   @php($conversation = $this->getActiveConversation())
 
-  <div id="chat_root_739184" style="height: 100%; width: 100%; font-family: Inter, system-ui, sans-serif; color: #183247;">
+  <div
+    id="chat_root_739184"
+    style="height: 100%; width: 100%; font-family: Inter, system-ui, sans-serif; color: #183247;"
+    x-data
+    x-init="window.chatConversationId = @js($activeConversationId); (window.ChatEcho?.subscribeConversation || ((id) => window.dispatchEvent(new CustomEvent('chat:activate-conversation', { detail: { conversationId: id } }))))(@js($activeConversationId));"
+  >
     <div id="chat_shell_482761" class="flex h-full min-h-screen w-full">
 
       <aside id="conversation_sidebar_291405" class="flex w-72 shrink-0 flex-col border-r border-sky-200">
@@ -11,12 +16,13 @@
             <button type="button"
                     wire:key="conv-{{ $conv['id'] }}"
                     wire:click="switchConversation({{ $conv['id'] }})"
+                    x-on:click="window.chatConversationId = {{ $conv['id'] }}; (window.ChatEcho?.subscribeConversation || ((id) => window.dispatchEvent(new CustomEvent('chat:activate-conversation', { detail: { conversationId: id } }))))({{ $conv['id'] }})"
                     class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition hover:bg-sky-100 @if ($conv['id'] === $activeConversationId) bg-sky-500 shadow-[0_4px_6px_rgba(14,116,144,0.18)] hover:bg-sky-600 @endif">
               <div class="relative">
                 <div class="flex h-11 w-11 items-center justify-center rounded-full text-sm font-semibold shadow-sm @if ($conv['id'] === $activeConversationId) bg-white text-sky-700 @else bg-sky-100 text-sky-800 @endif">
                   {{ $conv['initials'] }}
                 </div>
-                <span class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-sky-500 @if ($conv['is_recent']) bg-emerald-400 @else bg-slate-300 @endif"></span>
+                <span class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-sky-500 @if ($conv['online']) bg-emerald-400 @else bg-slate-300 @endif"></span>
               </div>
               <div class="min-w-0 flex-1">
                 <p class="truncate text-sm font-semibold @if ($conv['id'] === $activeConversationId) text-white @else text-slate-900 @endif">
@@ -26,6 +32,11 @@
                   {{ $conv['status'] }}
                 </p>
               </div>
+              @if ($conv['unread'] > 0)
+                <span class="inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1.5 text-xs font-bold @if ($conv['id'] === $activeConversationId) bg-white text-sky-700 @else bg-sky-500 text-white @endif">
+                  {{ $conv['unread'] }}
+                </span>
+              @endif
             </button>
           @empty
             <p class="px-3 py-6 text-center text-sm text-slate-400">No conversations yet</p>
@@ -41,14 +52,14 @@
                 <div id="avatar_318647" class="flex h-11 w-11 items-center justify-center rounded-full bg-white text-sm font-semibold text-sky-700 shadow-sm">
                   {{ $conversation['initials'] }}
                 </div>
-                <span id="online_dot_761204" class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-sky-500 @if ($conversation['is_recent']) bg-emerald-400 @else bg-slate-300 @endif"></span>
+                <span id="online_dot_761204" class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-sky-500 @if ($conversation['online']) bg-emerald-400 @else bg-slate-300 @endif"></span>
               </div>
               <div id="person_text_543812">
                 <h1 id="person_name_684209" class="text-base font-semibold tracking-tight text-white">
                   {{ $conversation['name'] }}
                 </h1>
                 <p id="person_status_172638" class="mt-0.5 text-xs text-sky-50">
-                  {{ $conversation['status'] }}
+                  {{ $conversation['online'] ? 'Online now' : ($conversation['is_recent'] ? 'Active recently' : $conversation['status']) }}
                 </p>
               </div>
             </div>
@@ -77,9 +88,16 @@
                     <div class="rounded-2xl px-4 py-3 text-sm leading-6 shadow-[0_4px_6px_rgba(14,116,144,0.16)] @if ($message['is_own']) rounded-br-md bg-sky-600 text-white @else rounded-bl-md border border-sky-200 bg-sky-50 text-slate-800 shadow-[0_4px_6px_rgba(14,116,144,0.08)] @endif">
                       {{ $message['content'] }}
                     </div>
-                    <time class="mt-1.5 px-1 text-[11px] text-sky-700">
-                      {{ $message['time'] }}
-                    </time>
+                    <div class="mt-1.5 flex items-center gap-1 px-1">
+                      <time class="text-[11px] text-sky-700">
+                        {{ $message['time'] }}
+                      </time>
+                      @if ($message['is_own'])
+                        <span class="text-[11px] font-semibold @if ($message['read']) text-sky-600 @else text-slate-400 @endif">
+                          {{ $message['read'] ? '✓✓' : '✓' }}
+                        </span>
+                      @endif
+                    </div>
                   </div>
                 </article>
               @empty
@@ -87,7 +105,7 @@
               @endforelse
             </div>
           </section>
-          <form id="message_composer_305716" class="border-t border-sky-100 px-4 py-5 sm:px-8">
+          <form id="message_composer_305716" class="border-t border-sky-100 px-4 py-5 sm:px-8" wire:submit="send">
             <div id="composer_inner_416827" class="mx-auto flex w-[90%] items-end gap-1 rounded-2xl border-2 border-sky-700 bg-white p-2 shadow-[0_5px_14px_rgba(3,105,161,0.14)] transition focus-within:border-sky-800">
               <button id="attach_button_527938" type="button" aria-label="Attach file" class="mb-1 shrink-0 rounded-xl p-3 text-sky-800 transition hover:bg-sky-50">
                 <i data-lucide="paperclip" class="h-5 w-5"></i>
@@ -104,7 +122,7 @@
                   <i data-lucide="smile" class="h-5 w-5"></i>
                 </button>
                 <x-filament::icon-button
-                  wire:click="send"
+                  type="submit"
                   icon="heroicon-m-paper-airplane"
                   label="send"
                 />
