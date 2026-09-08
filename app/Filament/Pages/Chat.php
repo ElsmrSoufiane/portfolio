@@ -48,6 +48,11 @@ class Chat extends Page
         return Heroicon::OutlinedChatBubbleLeft;
     }
 
+    public function getHeading(): string
+    {
+        return '';
+    }
+
     public function mount(): void
     {
         $this->loadMessages();

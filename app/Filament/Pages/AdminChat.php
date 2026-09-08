@@ -48,6 +48,11 @@ class AdminChat extends Page
         return Heroicon::OutlinedChatBubbleBottomCenterText;
     }
 
+    public function getHeading(): string
+    {
+        return '';
+    }
+
     public function mount(): void
     {
         $this->loadConversations();
