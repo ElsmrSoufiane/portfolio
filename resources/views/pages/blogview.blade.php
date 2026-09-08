@@ -41,7 +41,7 @@ new class extends Component
           </span>
           <span id="views_meta_694138">
             <i data-lucide="eye" class="mr-1 inline h-4 w-4"></i>
-            {{ $blog->views }} views
+            {{ $blog->views }} {{ __('views') }}
           </span>
         </div>
       </div>
@@ -52,10 +52,10 @@ new class extends Component
               data-src="{{ asset('storage/' . $blog->video) }}"
               data-title="{{ $blog->title }}"></div>
           @else
-            <img id="video_thumbnail_716284" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3w3MjM4OTh8MHwxfHNlYXJjaHwxfHxmaW5hbmNlJTIwZGFzaGJvYXJkfGVufDB8fHx8MTc4NjU2NDc2MHww&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" data-image-label="Finance dashboard" alt="Finance dashboard video thumbnail" class="h-full w-full object-cover opacity-65 user-uploaded-image" data-attribution-url="" data-author="" data-author-link="">
+            <img id="video_thumbnail_716284" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3w3MjM4OTh8MHwxfHNlYXJjaHwxfHxmaW5hbmNlJTIwZGFzaGJvYXJkfGVufDB8fHx8MTc4NjU2NDc2MHww&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" data-image-label="{{ __('Finance dashboard') }}" alt="{{ __('Finance dashboard video thumbnail') }}" class="h-full w-full object-cover opacity-65 user-uploaded-image" data-attribution-url="" data-author="" data-author-link="">
             <div id="video_overlay_827395" class="absolute inset-0 bg-[#0F1319]/45">
             </div>
-            <button id="play_video_button_938416" class="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#4A9EE8] text-[#0F1319] transition duration-700 hover:scale-110 hover:bg-[#7EC8F0]" aria-label="Play video">
+            <button id="play_video_button_938416" class="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#4A9EE8] text-[#0F1319] transition duration-700 hover:scale-110 hover:bg-[#7EC8F0]" aria-label="{{ __('Play video') }}">
               <i data-lucide="play" class="ml-1 h-6 w-6 fill-current">
               </i>
             </button>
@@ -69,7 +69,7 @@ new class extends Component
     <section id="article_body_253870" class="mx-auto grid max-w-[1280px] gap-12 px-6 pb-24 lg:grid-cols-[220px_1fr] lg:px-12">
       <aside id="contents_panel_794162" class="lg:sticky lg:top-8 lg:self-start">
         <p id="contents_label_825314" class="text-xs uppercase tracking-[.18em] text-[#506070]">
-          In this story
+          {{ __('In this story') }}
         </p>
         <nav id="contents_navigation_936425" class="mt-5 space-y-3 border-l border-[#2A4060] pl-4 text-sm text-[#8AAEC8]">
           @foreach ($blog->sections as $index => $section)
@@ -98,21 +98,21 @@ new class extends Component
           </section>
         @empty
           <p class="rounded-xl border border-dashed border-[#1E3050] py-16 text-center text-sm text-[#506070]">
-            No sections published yet — check back soon.
+            {{ __('No sections published yet — check back soon.') }}
           </p>
         @endforelse
       </article>
     </section>
     <section id="comments_section_608431" class="mx-auto max-w-[1280px] px-6 pb-24 lg:px-12">
       <div class="max-w-3xl">
-        <span class="text-xs uppercase tracking-[.2em] text-[#7EC8F0]">Comments</span>
+        <span class="text-xs uppercase tracking-[.2em] text-[#7EC8F0]">{{ __('Comments') }}</span>
         <h2 id="comments_title_390571" class="display mt-4 text-5xl font-bold">
-          Discussion <span class="text-[#4A9EE8]">({{ $blog->comments()->count() }})</span>
+          {{ __('Discussion') }} <span class="text-[#4A9EE8]">({{ $blog->comments()->count() }})</span>
         </h2>
         @guest
           <p class="mt-4 text-[#8AAEC8]">
-            <a href="/user/login" class="text-[#4A9EE8] hover:underline">Log in</a>
-            to share your opinion.
+            <a href="/user/login" class="text-[#4A9EE8] hover:underline">{{ __('Log in') }}</a>
+            {{ __('to share your opinion.') }}
           </p>
         @endguest
       </div>

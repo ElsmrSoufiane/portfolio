@@ -60,7 +60,7 @@ new class extends Component
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                       </svg>
-                      {{ $project->images->count() }} {{ Str::plural('Image', $project->images->count()) }}
+                      {{ $project->images->count() }} {{ $project->images->count() === 1 ? __('Image') : __('Images') }}
                     </button>
                   </x-slot>
 
@@ -68,7 +68,7 @@ new class extends Component
                     x-data="{
                       slides: @js($project->images->map(fn ($img) => [
                         'imgSrc' => asset('storage/' . $img->image),
-                        'imgAlt' => $project->title . ' - Image',
+                        'imgAlt' => $project->title . ' - ' . __('Image'),
                       ])->values()->all()),
                       currentSlideIndex: 1,
                       previous() {
@@ -88,7 +88,7 @@ new class extends Component
                     <button
                       type="button"
                       class="absolute left-5 top-1/2 z-20 flex -translate-y-1/2 items-center justify-center rounded-full bg-black/40 p-2 text-white transition hover:bg-black/60"
-                      aria-label="previous slide"
+                      aria-label="{{ __('previous slide') }}"
                       x-on:click="previous()"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
@@ -98,7 +98,7 @@ new class extends Component
                     <button
                       type="button"
                       class="absolute right-5 top-1/2 z-20 flex -translate-y-1/2 items-center justify-center rounded-full bg-black/40 p-2 text-white transition hover:bg-black/60"
-                      aria-label="next slide"
+                      aria-label="{{ __('next slide') }}"
                       x-on:click="next()"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
@@ -124,7 +124,7 @@ new class extends Component
                     <div
                       class="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-3 rounded-full bg-black/60 px-3 py-1.5 md:bottom-5"
                       role="group"
-                      aria-label="slides"
+                      aria-label="{{ __('slides') }}"
                     >
                       <template x-for="(slide, index) in slides" :key="index">
                         <button
@@ -149,7 +149,7 @@ new class extends Component
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
                       </svg>
-                      {{ $project->videos->count() }} {{ Str::plural('Video', $project->videos->count()) }}
+                      {{ $project->videos->count() }} {{ $project->videos->count() === 1 ? __('Video') : __('Videos') }}
                     </button>
                   </x-slot>
 
@@ -177,7 +177,7 @@ new class extends Component
                     <button
                       type="button"
                       class="absolute left-5 top-1/2 z-20 flex -translate-y-1/2 items-center justify-center rounded-full bg-black/40 p-2 text-white transition hover:bg-black/60"
-                      aria-label="previous slide"
+                      aria-label="{{ __('previous slide') }}"
                       x-on:click="previous()"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
@@ -187,7 +187,7 @@ new class extends Component
                     <button
                       type="button"
                       class="absolute right-5 top-1/2 z-20 flex -translate-y-1/2 items-center justify-center rounded-full bg-black/40 p-2 text-white transition hover:bg-black/60"
-                      aria-label="next slide"
+                      aria-label="{{ __('next slide') }}"
                       x-on:click="next()"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
@@ -216,7 +216,7 @@ new class extends Component
                     <div
                       class="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-3 rounded-full bg-black/60 px-3 py-1.5 md:bottom-5"
                       role="group"
-                      aria-label="slides"
+                      aria-label="{{ __('slides') }}"
                     >
                       <template x-for="(slide, index) in slides" :key="index">
                         <button
@@ -237,7 +237,7 @@ new class extends Component
       @if ($project->sections->isNotEmpty())
         <section id="content_sections_817364" class="nova-shell relative mx-auto max-w-[1280px] px-12 pb-24">
           <div id="content_intro_369150" class="mb-12">
-            <span class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">Project details</span>
+            <span class="text-xs uppercase tracking-[.2em] text-[#4A9EE8]">{{ __('Project details') }}</span>
             <h2 id="content_intro_title_450871" class="nova-display mt-4 text-5xl font-bold">
               {{ $project->sections->first()->title }}
             </h2>
@@ -264,12 +264,12 @@ new class extends Component
       @if ($project->themes->isNotEmpty())
         <section id="themes_section_463918" class="nova-shell relative mx-auto max-w-[1280px] px-12 pb-28">
           <div id="themes_header_740526" class="mb-14">
-            <span class="text-xs uppercase tracking-[.2em] text-[#7EC8F0]">Download themes</span>
+            <span class="text-xs uppercase tracking-[.2em] text-[#7EC8F0]">{{ __('Download themes') }}</span>
             <h2 id="themes_title_285604" class="nova-display mt-4 text-5xl font-bold">
-              Take the system with you.
+              {{ __('Take the system with you.') }}
             </h2>
             <p id="themes_description_619407" class="mt-4 max-w-2xl text-lg font-light leading-8 text-[#8AAEC8]">
-              Download the foundational themes and use them as a starting point for your next product.
+              {{ __('Download the foundational themes and use them as a starting point for your next product.') }}
             </p>
           </div>
           <div id="theme_cards_641295" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -319,7 +319,7 @@ new class extends Component
                       class="flex w-full items-center justify-center gap-2.5 rounded-xl border border-[#2A4060]/60 bg-[#1A2A40]/50 px-5 py-3 text-sm font-medium text-[#B0D0E8] transition-all duration-300 hover:border-[#4A9EE8]/40 hover:bg-[#4A9EE8]/10 hover:text-white hover:shadow-lg hover:shadow-[#4A9EE8]/10"
                     >
                       <i data-lucide="download" class="h-4 w-4 opacity-70"></i>
-                      Download theme
+                      {{ __('Download theme') }}
                     </a>
                   </div>
                 @endif
@@ -330,14 +330,14 @@ new class extends Component
       @endif
       <section id="comments_section_817364" class="nova-shell relative mx-auto max-w-[1280px] px-12 pb-28">
         <div id="comments_header_740526" class="mb-12">
-          <span class="text-xs uppercase tracking-[.2em] text-[#7EC8F0]">Comments</span>
+          <span class="text-xs uppercase tracking-[.2em] text-[#7EC8F0]">{{ __('Comments') }}</span>
           <h2 id="comments_title_285604" class="nova-display mt-4 text-5xl font-bold">
-            Discussion <span class="text-[#4A9EE8]">({{ $project->comments()->count() }})</span>
+            {{ __('Discussion') }} <span class="text-[#4A9EE8]">({{ $project->comments()->count() }})</span>
           </h2>
           @guest
             <p class="mt-4 text-[#8AAEC8]">
-              <a href="/user/login" class="text-[#4A9EE8] hover:underline">Log in</a>
-              to share your opinion.
+              <a href="/user/login" class="text-[#4A9EE8] hover:underline">{{ __('Log in') }}</a>
+              {{ __('to share your opinion.') }}
             </p>
           @endguest
         </div>

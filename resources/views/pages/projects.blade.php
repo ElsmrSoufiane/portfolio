@@ -24,8 +24,8 @@ new class extends Component
     <section id="projects" class="mx-auto max-w-[1280px] px-6 py-20 lg:px-12">
       <div id="projects_heading_517649" class="mb-10 flex items-end text-lg font-bold  justify-center">
         <div  id="projects_title_group_682415">
-          <span class="text-xs uppercase  tracking-[.2em] text-[#4A9EE8]">01 / Selected work</span>
-          <h2 class="display mt-3 text-4xl font-bold">Products built to be used.</h2>
+          <span class="text-xs uppercase  tracking-[.2em] text-[#4A9EE8]">01 / {{ __('Selected work') }}</span>
+          <h2 class="display mt-3 text-4xl font-bold">{{ __('Products built to be used.') }}</h2>
         </div>
            </div>
       <div id="projects_grid_704182" class="grid gap-5 md:grid-cols-3">
@@ -49,13 +49,13 @@ new class extends Component
           <h3 class="display mt-2 text-2xl font-bold"> {{$project->title}} </h3>
           <p class="mt-2 text-sm leading-6 text-[#8AAEC8]"> {{$project->description}} </p>
          <div class="mt-6 flex items-center justify-between text-sm">
-             <span class="text-[#E4EEF8]">Instant access</span>
+             <span class="text-[#E4EEF8]">{{ __('Instant access') }}</span>
             <i data-lucide="arrow-up-right" class="h-4 w-4 text-[#4A9EE8]"></i>
           </div>
         </article>
       </a>
        @empty
-        <p class="col-span-full rounded-xl border border-dashed border-[#1E3050] py-16 text-center text-sm text-[#506070]">No projects published yet — check back soon.</p>
+        <p class="col-span-full rounded-xl border border-dashed border-[#1E3050] py-16 text-center text-sm text-[#506070]">{{ __('No projects published yet — check back soon.') }}</p>
         @endforelse
       </div>
 

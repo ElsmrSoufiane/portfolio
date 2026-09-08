@@ -39,7 +39,7 @@
               @endif
             </button>
           @empty
-            <p class="px-3 py-6 text-center text-sm text-slate-400">No conversations yet</p>
+            <p class="px-3 py-6 text-center text-sm text-slate-400">{{ __('No conversations yet') }}</p>
           @endforelse
         </div>
       </aside>
@@ -59,15 +59,15 @@
                   {{ $conversation['name'] }}
                 </h1>
                 <p id="person_status_172638" class="mt-0.5 text-xs text-sky-50">
-                  {{ $conversation['online'] ? 'Online now' : ($conversation['is_recent'] ? 'Active recently' : $conversation['status']) }}
+                  {{ $conversation['online'] ? __('Online now') : ($conversation['is_recent'] ? __('Active recently') : $conversation['status']) }}
                 </p>
               </div>
             </div>
-            <button id="more_button_836451" aria-label="Conversation options" class="rounded-lg p-2 text-sky-50 transition hover:bg-sky-600 hover:text-white">
+            <button id="more_button_836451" aria-label="{{ __('Conversation options') }}" class="rounded-lg p-2 text-sky-50 transition hover:bg-sky-600 hover:text-white">
               <i data-lucide="menu" class="h-5 w-5"></i>
             </button>
           </header>
-          <section id="messages_area_290517" aria-label="Messages"
+          <section id="messages_area_290517" aria-label="{{ __('Messages') }}"
             x-data="{ loadingOlder: false }"
             class="flex-1 overflow-y-auto px-4 py-7 sm:px-8"
             x-ref="scrollArea"
@@ -80,7 +80,7 @@
                           x-bind:disabled="loadingOlder"
                           class="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-white px-4 py-2 text-sm font-medium text-sky-700 shadow-sm transition hover:bg-sky-50 hover:text-sky-800 disabled:cursor-not-allowed disabled:opacity-70">
                     <x-filament::loading-indicator x-show="loadingOlder" class="h-4 w-4" />
-                    <span x-text="loadingOlder ? 'Loading...' : 'Load older messages'"></span>
+                    <span x-text="loadingOlder ? '{{ __('Loading...') }}' : '{{ __('Load older messages') }}'"></span>
                   </button>
                 </div>
               @endif
@@ -116,16 +116,16 @@
                   </div>
                 </article>
               @empty
-                <p class="text-center text-sm text-slate-400">No messages yet. Say hello!</p>
+                <p class="text-center text-sm text-slate-400">{{ __('No messages yet. Say hello!') }}</p>
               @endforelse
             </div>
           </section>
           <form id="message_composer_305716" class="border-t border-sky-100 px-4 py-5 sm:px-8" wire:submit="send">
             <div id="composer_inner_416827" class="mx-auto flex w-[90%] items-end gap-1 rounded-2xl border-2 border-sky-700 bg-white p-2 shadow-[0_5px_14px_rgba(3,105,161,0.14)] transition focus-within:border-sky-800">
-              <button id="attach_button_527938" type="button" aria-label="Attach file" class="mb-1 shrink-0 rounded-xl p-3 text-sky-800 transition hover:bg-sky-50">
+              <button id="attach_button_527938" type="button" aria-label="{{ __('Attach file') }}" class="mb-1 shrink-0 rounded-xl p-3 text-sky-800 transition hover:bg-sky-50">
                 <i data-lucide="paperclip" class="h-5 w-5"></i>
               </button>
-              <textarea id="message_input_638049" rows="6" placeholder="Write a message..." maxlength="100" class="min-h-[150px] flex-1 resize-none border-0 bg-white px-3 py-3 text-base leading-7 text-slate-900 outline-none placeholder:text-sky-700 focus:ring-0"
+              <textarea id="message_input_638049" rows="6" placeholder="{{ __('Write a message...') }}" maxlength="100" class="min-h-[150px] flex-1 resize-none border-0 bg-white px-3 py-3 text-base leading-7 text-slate-900 outline-none placeholder:text-sky-700 focus:ring-0"
               wire:model="message"
               >
               </textarea>
@@ -133,13 +133,13 @@
               <span class="w-full text-xs text-red-600">{{ $message }}</span>
               @enderror
               <div id="composer_actions_582716" class="flex shrink-0 items-end gap-1 pb-1">
-                <button id="emoji_button_749150" type="button" aria-label="Add emoji" class="rounded-xl p-3 text-sky-800 transition hover:bg-sky-50">
+                <button id="emoji_button_749150" type="button" aria-label="{{ __('Add emoji') }}" class="rounded-xl p-3 text-sky-800 transition hover:bg-sky-50">
                   <i data-lucide="smile" class="h-5 w-5"></i>
                 </button>
                 <x-filament::icon-button
                   type="submit"
                   icon="heroicon-m-paper-airplane"
-                  label="send"
+                  label="{{ __('send') }}"
                 />
               </div>
             </div>
@@ -147,8 +147,8 @@
         </main>
       @else
         <main class="flex h-full min-h-screen w-full min-w-0 flex-1 flex-col items-center justify-center gap-2 text-slate-400">
-          <p class="text-sm font-medium">Select a conversation to start chatting</p>
-          <p class="text-xs">Conversations from customers will appear here.</p>
+          <p class="text-sm font-medium">{{ __('Select a conversation to start chatting') }}</p>
+          <p class="text-xs">{{ __('Conversations from customers will appear here.') }}</p>
         </main>
       @endif
     </div>

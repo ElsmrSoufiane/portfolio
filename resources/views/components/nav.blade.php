@@ -19,7 +19,7 @@ new class extends Component
       <span class="self-center text-xl text-[#E4EEF8] font-semibold whitespace-nowrap">lasmarsoufiane<span class="text-[#4A9EE8]">.dev</span></span>
     </a>
     <button x-on:click="mobileOpen = !mobileOpen" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-[#8AAEC8] rounded-lg md:hidden hover:bg-[#1A2130] hover:text-[#E4EEF8] focus:outline-none focus:ring-2 focus:ring-[#2A4060]" aria-controls="navbar-default" :aria-expanded="mobileOpen.toString()">
-      <span class="sr-only">Open main menu</span>
+      <span class="sr-only">{{ __('Open main menu') }}</span>
       <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/></svg>
     </button>
     <div class="w-full md:block md:w-auto" id="navbar-default" :class="mobileOpen ? '' : 'hidden'">

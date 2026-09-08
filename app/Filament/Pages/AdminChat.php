@@ -40,7 +40,7 @@ class AdminChat extends Page
 
     public static function getNavigationLabel(): string
     {
-        return 'Admin Chat';
+        return __('Admin Chat');
     }
 
     public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
@@ -98,7 +98,7 @@ class AdminChat extends Page
         $this->reset('message');
 
         Notification::make()
-            ->title('message has been sent')
+            ->title(__('message has been sent'))
             ->success()
             ->send();
     }
@@ -182,7 +182,7 @@ class AdminChat extends Page
             ])
             ->form([
                 Textarea::make('content')
-                    ->label('Message')
+                    ->label(__('Message'))
                     ->required()
                     ->maxLength(100)
                     ->rows(4),
@@ -206,7 +206,7 @@ class AdminChat extends Page
                 $this->loadMessages();
 
                 Notification::make()
-                    ->title('message has been updated')
+                    ->title(__('message has been updated'))
                     ->success()
                     ->send();
             });
@@ -237,7 +237,7 @@ class AdminChat extends Page
                 $this->loadMessages();
 
                 Notification::make()
-                    ->title('message has been deleted')
+                    ->title(__('message has been deleted'))
                     ->danger()
                     ->send();
             });
@@ -267,11 +267,11 @@ class AdminChat extends Page
 
                 return [
                     'id' => $conversation->id,
-                    'name' => $user?->name ?? 'Unknown',
+                    'name' => $user?->name ?? __('Unknown'),
                     'initials' => $this->initials($user?->name),
                     'status' => $lastMessage
                         ? $lastMessage->created_at->format('g:i A')
-                        : 'No messages yet',
+                        : __('No messages yet'),
                     'is_recent' => ($lastMessage?->created_at->gt(now()->subMinutes(5)) ?? false),
                     'unread' => $conversation->unreadCountFor(auth()->id()),
                     'online' => $userId !== null

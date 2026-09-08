@@ -29,6 +29,11 @@ class ProjectResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('Projects');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return ProjectForm::configure($schema);

@@ -40,7 +40,7 @@ class Chat extends Page
 
     public static function getNavigationLabel(): string
     {
-        return 'Chat';
+        return __('Chat');
     }
 
     public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
@@ -82,7 +82,7 @@ class Chat extends Page
         $this->reset('message');
 
         Notification::make()
-            ->title('message has been sent')
+            ->title(__('message has been sent'))
             ->success()
             ->send();
     }
@@ -165,7 +165,7 @@ class Chat extends Page
             ])
             ->form([
                 Textarea::make('content')
-                    ->label('Message')
+                    ->label(__('Message'))
                     ->required()
                     ->maxLength(100)
                     ->rows(4),
@@ -189,7 +189,7 @@ class Chat extends Page
                 $this->loadMessages();
 
                 Notification::make()
-                    ->title('message has been updated')
+                    ->title(__('message has been updated'))
                     ->success()
                     ->send();
             });
@@ -220,7 +220,7 @@ class Chat extends Page
                 $this->loadMessages();
 
                 Notification::make()
-                    ->title('message has been deleted')
+                    ->title(__('message has been deleted'))
                     ->danger()
                     ->send();
             });

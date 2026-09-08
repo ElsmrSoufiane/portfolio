@@ -14,10 +14,16 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class ImagesRelationManager extends RelationManager
 {
     protected static string $relationship = 'images';
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return __('Images');
+    }
 
     public function form(Schema $schema): Schema
     {
